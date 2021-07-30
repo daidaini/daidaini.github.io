@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>daidaini的学习空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+  <meta name="description" content="自己的学习笔记整理">
+<meta property="og:type" content="website">
+<meta property="og:title" content="daidaini的学习空间">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="daidaini的学习空间">
+<meta property="og:description" content="自己的学习笔记整理">
+<meta property="og:locale" content="zn_CN">
+<meta property="article:author" content="俞波">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="daidaini的学习空间" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -42,8 +44,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">daidaini的学习空间</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">use github</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -88,7 +94,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="keyword">namespace</span> test</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">FuncB</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x + y;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">FuncC</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test_use_function</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">using</span> funcType = std::function&lt;<span class="built_in"><span class="keyword">int</span></span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt;;</span><br><span class="line"></span><br><span class="line">		funcType a = [](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		funcType b = FuncB;</span><br><span class="line"></span><br><span class="line">		funcType c = <span class="built_in">FuncC</span>();</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;a = &quot;</span> &lt;&lt; <span class="built_in">a</span>(<span class="number">3</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;b = &quot;</span> &lt;&lt; <span class="built_in">b</span>(<span class="number">30</span>, <span class="number">40</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;c = &quot;</span> &lt;&lt; <span class="built_in">c</span>(<span class="number">30</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>结果如下：</p>
-<figure class="highlight plaintext"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = 7</span><br><span class="line">b = 70 </span><br><span class="line">c = 34</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = 7</span><br><span class="line">b = 70 </span><br><span class="line">c = 34</span><br></pre></td></tr></table></figure>
 
 
 
@@ -116,7 +122,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/30/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/" data-id="ckrpra0c90000c4axfp6t6ykf" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/07/30/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/" data-id="ckrpsisdk00023wax5bks3ue5" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -242,7 +248,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" data-id="ckrppa1wl0000fcax4jpm3acp" data-title="C++11线程.md" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" data-id="ckrpsisde00003waxgljdc049" data-title="C++11线程.md" class="article-share-link">Share</a>
       
       
       
@@ -293,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/30/hello-world/" data-id="ckrpp1awd0000pkaxg6gp43ck" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/07/30/hello-world/" data-id="ckrpsisdi00013waxherq6ooc" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -360,7 +366,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2021 John Doe<br>
+      &copy; 2021 俞波<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
