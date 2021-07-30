@@ -4,21 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>个人博客</title>
+  <title>std-function | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="std::function 测试实验如下： 1234567891011121314151617181920212223242526272829303132inline namespace test&amp;#123;	int FuncB(int x, int y)	&amp;#123;		return x + y;	&amp;#125;	struct FuncC	&amp;#123;		int operator()(int x,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="http://example.com/2021/07/30/std-function%E7%9A%84%E5%AE%9E%E9%AA%8C/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:title" content="std-function">
+<meta property="og:url" content="http://example.com/2021/07/30/std-function/std-function/index.html">
 <meta property="og:site_name" content="个人博客">
 <meta property="og:description" content="std::function 测试实验如下： 1234567891011121314151617181920212223242526272829303132inline namespace test&amp;#123;	int FuncB(int x, int y)	&amp;#123;		return x + y;	&amp;#125;	struct FuncC	&amp;#123;		int operator()(int x,">
 <meta property="og:locale" content="zn_CN">
-<meta property="og:image" content="http://example.com/exam_result_1.png">
-<meta property="article:published_time" content="2021-07-30T02:57:14.325Z">
-<meta property="article:modified_time" content="2021-07-30T04:14:06.001Z">
+<meta property="article:published_time" content="2021-07-30T04:25:28.000Z">
+<meta property="article:modified_time" content="2021-07-30T04:49:00.841Z">
 <meta property="article:author" content="俞波">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/exam_result_1.png">
   
     <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -79,15 +77,25 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-std-function的实验/标准库function的实验" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-std-function/std-function" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/07/30/std-function%E7%9A%84%E5%AE%9E%E9%AA%8C/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/" class="article-date">
-  <time class="dt-published" datetime="2021-07-30T02:57:14.325Z" itemprop="datePublished">2021-07-30</time>
+    <a href="/2021/07/30/std-function/std-function/" class="article-date">
+  <time class="dt-published" datetime="2021-07-30T04:25:28.000Z" itemprop="datePublished">2021-07-30</time>
 </a>
     
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      std-function
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -96,10 +104,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="keyword">namespace</span> test</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">FuncB</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x + y;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">FuncC</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test_use_function</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">using</span> funcType = std::function&lt;<span class="built_in"><span class="keyword">int</span></span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt;;</span><br><span class="line"></span><br><span class="line">		funcType a = [](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		funcType b = FuncB;</span><br><span class="line"></span><br><span class="line">		funcType c = <span class="built_in">FuncC</span>();</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;a = &quot;</span> &lt;&lt; <span class="built_in">a</span>(<span class="number">3</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;b = &quot;</span> &lt;&lt; <span class="built_in">b</span>(<span class="number">30</span>, <span class="number">40</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;c = &quot;</span> &lt;&lt; <span class="built_in">c</span>(<span class="number">30</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = 7</span><br><span class="line">b = 70 </span><br><span class="line">c = 34</span><br></pre></td></tr></table></figure>
-
-
-
+<p>a = 7<br>b = 70<br>c = 34</p>
 <p>增加变化，加一个类如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FuncContainer</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">Push</span><span class="params">(funcType&amp;&amp; func)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;using void Push(funcType&amp;&amp; func)\n&quot;</span>;</span><br><span class="line">			m_contianer.<span class="built_in">emplace_back</span>(std::forward&lt;funcType&gt;(func));</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">Push</span><span class="params">(funcType&amp; func)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;using void Push(funcType&amp; func)\n&quot;</span>;</span><br><span class="line">			m_contianer.<span class="built_in">emplace_back</span>(func);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function">funcType&amp; <span class="title">Take</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;using funcType&amp; Take(int index)\n&quot;</span>;</span><br><span class="line">			<span class="keyword">return</span> m_contianer[index];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		vector&lt;funcType&gt; m_contianer;</span><br><span class="line">	&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -109,7 +114,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_use_function</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FuncContainer container;</span><br><span class="line">		container.<span class="built_in">Push</span>([](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">			&#125;);</span><br><span class="line">		container.<span class="built_in">Push</span>(FuncB);</span><br><span class="line">		container.<span class="built_in">Push</span>(<span class="built_in">FuncC</span>());</span><br><span class="line"></span><br><span class="line">		<span class="keyword">auto</span> afunc = container.<span class="built_in">Take</span>(<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">auto</span> bfunc = container.<span class="built_in">Take</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">auto</span> cfunc = container.<span class="built_in">Take</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;a = &quot;</span> &lt;&lt; <span class="built_in">afunc</span>(<span class="number">3</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;b = &quot;</span> &lt;&lt; <span class="built_in">bfunc</span>(<span class="number">30</span>, <span class="number">40</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;c = &quot;</span> &lt;&lt; <span class="built_in">cfunc</span>(<span class="number">30</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 <p>测试结果：</p>
-<p><img src="/exam_result_1.png"></p>
+<p>using void Push(funcType&amp;&amp; func)<br>using void Push(funcType&amp;&amp; func)<br>using void Push(funcType&amp;&amp; func)<br>using funcType&amp; Take(int index)<br>using funcType&amp; Take(int index)<br>using funcType&amp; Take(int index)<br>a = 7<br>b = 70<br>c = 34</p>
 <p>实验结论：</p>
 <ol>
 <li> std::function 作为通用的多态函数封装器， std::function 的实例能存储、复制及调用任何可调用 (Callable) 目标——函数、 lambda 表达式、 bind 表达式或其他函数对象，还有指向成员函数指针和指向数据成员指针</li>
@@ -124,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/30/std-function%E7%9A%84%E5%AE%9E%E9%AA%8C/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/" data-id="ckrpu06rk0002mwaxhr7xhp2x" data-title="" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/07/30/std-function/std-function/" data-id="ckrpvaeet0002qoaxbfznhws3" data-title="std-function" class="article-share-link">Teilen</a>
       
       
       
@@ -137,7 +142,7 @@
   
     <a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">C++11线程.md</div>
+      <div class="article-nav-title">C++11线程库使用</div>
     </a>
   
 </nav>
@@ -175,11 +180,11 @@
       <ul>
         
           <li>
-            <a href="/2021/07/30/std-function%E7%9A%84%E5%AE%9E%E9%AA%8C/%E6%A0%87%E5%87%86%E5%BA%93function%E7%9A%84%E5%AE%9E%E9%AA%8C/">(no title)</a>
+            <a href="/2021/07/30/std-function/std-function/">std-function</a>
           </li>
         
           <li>
-            <a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/">C++11线程.md</a>
+            <a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/">C++11线程库使用</a>
           </li>
         
           <li>
