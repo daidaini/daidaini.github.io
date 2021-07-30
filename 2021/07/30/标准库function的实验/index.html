@@ -13,12 +13,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="std::function 测试实验如下： 1234567891011121314151617181920212223242526272829303132inline namespace test&amp;#123;	int FuncB(int x, int y)	&amp;#123;		return x + y;	&amp;#125;	struct FuncC	&amp;#123;		int operator()(int x,">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/06b5f1b1fb45fa8bc1e478a1abf478eb/xmlnote/55F3067D5CE14FBC952FC6B2A06F540A/44241">
+<meta property="og:image" content="d:/work/MyWorkCode/NewNode/self_blog/source_posts/exam_result_1.png">
 <meta property="article:published_time" content="2021-07-30T02:57:14.325Z">
-<meta property="article:modified_time" content="2021-07-30T03:21:45.753Z">
+<meta property="article:modified_time" content="2021-07-30T03:26:17.786Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/06b5f1b1fb45fa8bc1e478a1abf478eb/xmlnote/55F3067D5CE14FBC952FC6B2A06F540A/44241">
+<meta name="twitter:image" content="d:/work/MyWorkCode/NewNode/self_blog/source_posts/exam_result_1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -105,10 +105,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_use_function</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		FuncContainer container;</span><br><span class="line">		container.<span class="built_in">Push</span>([](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123;</span><br><span class="line">			<span class="keyword">return</span> x + y;</span><br><span class="line">			&#125;);</span><br><span class="line">		container.<span class="built_in">Push</span>(FuncB);</span><br><span class="line">		container.<span class="built_in">Push</span>(<span class="built_in">FuncC</span>());</span><br><span class="line"></span><br><span class="line">		<span class="keyword">auto</span> afunc = container.<span class="built_in">Take</span>(<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">auto</span> bfunc = container.<span class="built_in">Take</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">auto</span> cfunc = container.<span class="built_in">Take</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;a = &quot;</span> &lt;&lt; <span class="built_in">afunc</span>(<span class="number">3</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;b = &quot;</span> &lt;&lt; <span class="built_in">bfunc</span>(<span class="number">30</span>, <span class="number">40</span>) &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;c = &quot;</span> &lt;&lt; <span class="built_in">cfunc</span>(<span class="number">30</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 <p>测试结果：</p>
-<img src="https://note.youdao.com/yws/public/resource/06b5f1b1fb45fa8bc1e478a1abf478eb/xmlnote/55F3067D5CE14FBC952FC6B2A06F540A/44241" alt="img"  />
-
-
-
+<p><img src="D:\work\MyWorkCode\NewNode\self_blog\source_posts\exam_result_1.png"></p>
 <p>实验结论：</p>
 <ol>
 <li> std::function 作为通用的多态函数封装器， std::function 的实例能存储、复制及调用任何可调用 (Callable) 目标——函数、 lambda 表达式、 bind 表达式或其他函数对象，还有指向成员函数指针和指向数据成员指针</li>
