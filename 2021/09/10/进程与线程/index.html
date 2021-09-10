@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021/7 | 个人博客</title>
+  <title>进程与线程 | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="C++编程学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="http://example.com/archives/2021/07/index.html">
+  <meta name="description" content="进程与线程的区别 当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。 同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。 换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。 这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。 现代的操作系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程与线程">
+<meta property="og:url" content="http://example.com/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="个人博客">
-<meta property="og:description" content="C++编程学习">
+<meta property="og:description" content="进程与线程的区别 当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。 同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。 换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。 这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。 现代的操作系">
 <meta property="og:locale" content="zn_CN">
+<meta property="article:published_time" content="2021-09-10T05:47:31.000Z">
+<meta property="article:modified_time" content="2021-09-10T05:50:15.416Z">
 <meta property="article:author" content="俞波">
+<meta property="article:tag" content="C++学习">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="个人博客" type="application/atom+xml">
@@ -144,147 +147,228 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-进程与线程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/30/std-function/" class="archive-article-date">
-  	<time datetime="2021-07-30T04:25:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/30/std-function/">std-function</a>
+    <h1 class="article-title" itemprop="name">
+      进程与线程
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2021-09-10T05:47:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>进程与线程的区别</strong></p>
+<p>当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。</p>
+<p>同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。</p>
+<p>换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。</p>
+<p>这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。</p>
+<p>现代的操作系统都是会并发处理多任务的，所以必然会同时处理多个进程，那就必然需要进行进程的切换。而切换进程，意味着，需要将进程独占的那些资源都进行切换。</p>
+<p>那由于进程管理的资源较多，相对切换的成本开销就较大了。这也是引入线程的概念的原因，线程是进程的一个子任务，是用来作为操作系统进行任务调度的最小单位。</p>
+<p>首先线程是相对进程更轻量级的存在，</p>
+<p>单个进程的线程间共享的资源包括：</p>
+<ul>
+<li>代码段</li>
+<li>全局数据段和静态数据段</li>
+<li>栈区</li>
+</ul>
+<p>理论上，栈区是属于线程是有的。</p>
+<p>但是实际上，不同线程的栈区并没有严格的隔离机制来进行保护。</p>
+<p>因此，如果一个线程拿到来自另一个线程栈帧上的指针，那么该线程就可以改变另一个线程的栈区，也就是说，</p>
+<p>这些线程可以任意膝盖本属于另一个线程中的变量。</p>
+<ul>
+<li>堆区</li>
+<li>打开的文件描述符</li>
+<li>命令行参数</li>
+<li>信号处理函数</li>
+<li>进程ID、进程组ID</li>
+</ul>
+<p>线程独占的资源有：（即线程上下文）</p>
+<ul>
+<li>线程的栈区   栈指针?(用来指向栈顶吗？)</li>
+<li>程序计数器（一种寄存器）</li>
+<li>函数运行使用的寄存器（保存部分局部变量之类）</li>
+<li>TLS(Thread Local Storage)</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/352707156">线程间到底共享了哪些进程资源 - 知乎 (zhihu.com)</a></p>
+<p>保存进程的信息的地方 称为PCB，进程控制块。</p>
+<p>保存线程的信息的地方，就是TCB，线程控制块。</p>
+<p>PCB存储的信息包括各种资源信息：内存地址空间信息、所有打开的文件、所有的I/O设备信息，</p>
+<p>此外，还有进程描述符（即进程的标识，进程id），进程的运行状态，对应的用户描述符，各种寄存器的信息，以及进程的优先级（操作系统用来进行调度的算法需要）等信息。</p>
+<p>TCB就相对少一点，除了线程描述符，也会记录对应的进程描述符，还有栈、寄存器等相关信息。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C++11</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C++学习</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/C-编程//" class="article-tag-list-link color1">C++编程</a>
+        			<a href="/categories/C-11//" class="article-tag-list-link color1">C++11</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-07-30T01:59:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/30/std-function/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">std-function</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/">C++11线程库使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C++11</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C-编程//" class="article-tag-list-link color1">C++编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/30/hello-world/" class="archive-article-date">
-  	<time datetime="2021-07-30T01:53:10.230Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/30/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -307,8 +391,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
