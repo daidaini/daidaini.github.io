@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>个人博客</title>
+  <title>Linux多线程服务端编程 | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="《Linux多线程服务端编程》 1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：  在即将析构一个对象时，从何而知此刻是否有其他线程正在执行该对象的成员函数 如何保证在执行成员函数期间，对象不会在另一个线程被析构 在调用某个对象的成员函数之前，如何得知这个对象还活着？它的析构函数会不会碰巧执行到一半？  解决这些race condtion是C++">
+  <meta name="description" content="1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：  在即将析构一个对象时，从何而知此刻是否有其他线程正在执行该对象的成员函数 如何保证在执行成员函数期间，对象不会在另一个线程被析构 在调用某个对象的成员函数之前，如何得知这个对象还活着？它的析构函数会不会碰巧执行到一半？  解决这些race condtion是C++多线程编程面临的基本问题。可以使">
 <meta property="og:type" content="article">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="http://example.com/2022/03/19/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="Linux多线程服务端编程">
+<meta property="og:url" content="http://example.com/2022/03/23/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="个人博客">
-<meta property="og:description" content="《Linux多线程服务端编程》 1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：  在即将析构一个对象时，从何而知此刻是否有其他线程正在执行该对象的成员函数 如何保证在执行成员函数期间，对象不会在另一个线程被析构 在调用某个对象的成员函数之前，如何得知这个对象还活着？它的析构函数会不会碰巧执行到一半？  解决这些race condtion是C++">
+<meta property="og:description" content="1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：  在即将析构一个对象时，从何而知此刻是否有其他线程正在执行该对象的成员函数 如何保证在执行成员函数期间，对象不会在另一个线程被析构 在调用某个对象的成员函数之前，如何得知这个对象还活着？它的析构函数会不会碰巧执行到一半？  解决这些race condtion是C++多线程编程面临的基本问题。可以使">
 <meta property="og:locale" content="zn_CN">
-<meta property="article:published_time" content="2022-03-19T05:35:24.857Z">
-<meta property="article:modified_time" content="2022-03-19T05:35:25.004Z">
+<meta property="article:published_time" content="2022-03-23T12:50:22.000Z">
+<meta property="article:modified_time" content="2022-03-23T13:12:08.493Z">
 <meta property="article:author" content="俞波">
+<meta property="article:tag" content="C++学习">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
@@ -79,18 +80,31 @@
       <div class="outer">
         <section id="main"><article id="post-《Linux多线程服务端编程》笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/19/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2022-03-19T05:35:24.857Z" itemprop="datePublished">2022-03-19</time>
+    <a href="/2022/03/23/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2022-03-23T12:50:22.000Z" itemprop="datePublished">2022-03-23</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Linux多线程服务端编程
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>《Linux多线程服务端编程》</p>
-<p>1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：</p>
+        <p>1 当一个对象能被多个线程同时看到时，那么这个对象的销毁时机就会变得模糊不清，可能出现多种竞态条件：</p>
 <ul>
 <li>在即将析构一个对象时，从何而知此刻是否有其他线程正在执行该对象的成员函数</li>
 <li>如何保证在执行成员函数期间，对象不会在另一个线程被析构</li>
@@ -192,10 +206,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/19/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/" data-id="cl13kow6y00061waxf06g29b0" data-title="" class="article-share-link">Compartir</a>
+      <a data-url="http://example.com/2022/03/23/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/" data-id="cl13mhxdc000g9gax81ts5m2y" data-title="Linux多线程服务端编程" class="article-share-link">Compartir</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a></li></ul>
+
     </footer>
   </div>
   
@@ -231,7 +247,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categorías</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-11/">C++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-11/">C++11</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux%E7%B3%BB%E7%BB%9F/">Linux系统</a></li></ul>
     </div>
   </div>
 
@@ -241,7 +257,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-11/" rel="tag">C++11</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-11/" rel="tag">C++11</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li></ul>
     </div>
   </div>
 
@@ -251,7 +267,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C-11/" style="font-size: 10px;">C++11</a> <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">C++学习</a>
+      <a href="/tags/C-11/" style="font-size: 10px;">C++11</a> <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">C++学习</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a>
     </div>
   </div>
 
@@ -273,11 +289,15 @@
       <ul>
         
           <li>
+            <a href="/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/">常用Linux命令</a>
+          </li>
+        
+          <li>
             <a href="/2022/03/23/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/">初始化列表</a>
           </li>
         
           <li>
-            <a href="/2022/03/19/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/">(no title)</a>
+            <a href="/2022/03/23/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E7%AC%94%E8%AE%B0/">Linux多线程服务端编程</a>
           </li>
         
           <li>
@@ -286,10 +306,6 @@
         
           <li>
             <a href="/2021/07/30/std-function/">std-function</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/">C++11线程库使用</a>
           </li>
         
       </ul>
