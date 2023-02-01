@@ -17,18 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>标签: C++特性 | daidaini&#39;s blogs</title>
-  <meta name="description" content="程序员记录学习内容的地方">
-<meta property="og:type" content="website">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="https://daidaini.github.io/tags/C-%E7%89%B9%E6%80%A7/index.html">
+  <title>进程与线程 | daidaini&#39;s blogs</title>
+  <meta name="description" content="进程与线程的区别 当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。 同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。 换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。 这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。 现代的操作系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程与线程">
+<meta property="og:url" content="https://daidaini.github.io/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="个人博客">
-<meta property="og:description" content="程序员记录学习内容的地方">
+<meta property="og:description" content="进程与线程的区别 当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。 同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。 换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。 这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。 现代的操作系">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-10T05:47:31.000Z">
+<meta property="article:modified_time" content="2023-01-31T07:25:30.806Z">
 <meta property="article:author" content="daidaini">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://daidaini.github.io/tags/C-%E7%89%B9%E6%80%A7/index.html">
+  <link rel="canonical" href="https://daidaini.github.io/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/index.html">
   
     <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -304,82 +307,216 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="content article article-tags post-type-list" itemscope="">
-    <header class="article-header">
-      <h1 itemprop="name" class="hidden-xs">标签: C++特性</h1>
-      <p class="text-muted hidden-xs">共 2 篇文章</p>
-      <nav role="navigation" id="nav-main" class="okayNav">
-        <ul>
-          <li><a href="/tags">All</a></li>
-          
-          <li><a href="/tags/C-标准库/">C++标准库</a></li>
-          
-          <li><a href="/tags/笔记/">笔记</a></li>
-          
-          <li><a href="/tags/C-特性/">C++特性</a></li>
-          
-          <li><a href="/tags/C语言/">C语言</a></li>
-          
-        </ul>
-      </nav>
-    </header>
-    <!-- /header -->
-    <div class="article-body">
-      <div class="row">
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-进程与线程" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
         
-<div class="col-md-6">
-    
-<article class="panel panel-default hover-shadow hover-grow" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="panel-body">
-     <div class="article-meta">
-       <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
-     </div>
-     <h3 class="article-title" itemprop="name">
-       <a class="article-link" href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/">理解CPP的移动语义</a>
-     </h3>
-   </div>
-   
-   <div class="panel-footer">
-     
-      <a href="/tags/C-%E7%89%B9%E6%80%A7/" class="label label-default mb">C++特性</a>
-     
-     
-   </div>
-   
-</article>
+  
+    <h1 class="article-title" itemprop="name">
+      进程与线程
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="article-date">
+	  <time datetime="2021-09-10T05:47:31.000Z" itemprop="datePublished">2021-09-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a>
+  </span>
 
 
-</div>
+        
 
-<div class="col-md-6">
-    
-<article class="panel panel-default hover-shadow hover-grow" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="panel-body">
-     <div class="article-meta">
-       <time datetime="2022-03-23T12:50:22.000Z" itemprop="datePublished">2022-03-23</time>
-     </div>
-     <h3 class="article-title" itemprop="name">
-       <a class="article-link" href="/2022/03/23/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/">初始化列表</a>
-     </h3>
-   </div>
-   
-   <div class="panel-footer">
-     
-      <a href="/tags/C-%E7%89%B9%E6%80%A7/" class="label label-default mb">C++特性</a>
-     
-     
-   </div>
-   
-</article>
-
-
-</div>
-
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/#comments" class="article-comment-link">评论</a></span>
+        
       </div>
     </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>进程与线程的区别</strong></p>
+<p>当我们把代码编译链接生成后的可执行文件，装载到内存中进行运行，这个运行中的实例就是进程。</p>
+<p>同一个可执行文件，可以有多个进程实例。而且，每个进程之间的内存资源都是相互独立、互不影响的。</p>
+<p>换句话解释就是，进程是操作系统进行资源调度和内存分配的基本单位。</p>
+<p>这些进程独享的资源，包括有代码、打开的文件、堆、栈、存放全局变量的数据段 以及一些内核内部使用的数据，比如运行状态等。</p>
+<p>现代的操作系统都是会并发处理多任务的，所以必然会同时处理多个进程，那就必然需要进行进程的切换。而切换进程，意味着，需要将进程独占的那些资源都进行切换。</p>
+<p>那由于进程管理的资源较多，相对切换的成本开销就较大了。这也是引入线程的概念的原因，线程是进程的一个子任务，是用来作为操作系统进行任务调度的最小单位。</p>
+<p>首先线程是相对进程更轻量级的存在，</p>
+<p>单个进程的线程间共享的资源包括：</p>
+<ul>
+<li>代码段</li>
+<li>全局数据段和静态数据段</li>
+<li>栈区</li>
+</ul>
+<p>理论上，栈区是属于线程是有的。</p>
+<p>但是实际上，不同线程的栈区并没有严格的隔离机制来进行保护。</p>
+<p>因此，如果一个线程拿到来自另一个线程栈帧上的指针，那么该线程就可以改变另一个线程的栈区，也就是说，</p>
+<p>这些线程可以任意膝盖本属于另一个线程中的变量。</p>
+<ul>
+<li>堆区</li>
+<li>打开的文件描述符</li>
+<li>命令行参数</li>
+<li>信号处理函数</li>
+<li>进程ID、进程组ID</li>
+</ul>
+<p>线程独占的资源有：（即线程上下文）</p>
+<ul>
+<li>线程的栈区   栈指针?(用来指向栈顶吗？)</li>
+<li>程序计数器（一种寄存器）</li>
+<li>函数运行使用的寄存器（保存部分局部变量之类）</li>
+<li>TLS(Thread Local Storage)</li>
+</ul>
+<p>保存进程的信息的地方 称为PCB，进程控制块。</p>
+<p>保存线程的信息的地方，就是TCB，线程控制块。</p>
+<p>PCB存储的信息包括各种资源信息：内存地址空间信息、所有打开的文件、所有的I/O设备信息，</p>
+<p>此外，还有进程描述符（即进程的标识，进程id），进程的运行状态，对应的用户描述符，各种寄存器的信息，以及进程的优先级（操作系统用来进行调度的算法需要）等信息。</p>
+<p>TCB就相对少一点，除了线程描述符，也会记录对应的进程描述符，还有栈、寄存器等相关信息。</p>
+<p><strong>参考</strong><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/352707156">线程间到底共享了哪些进程资源 - 知乎 (zhihu.com)</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2021/09/10/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="进程与线程" target="_blank" rel="external">https://daidaini.github.io/2021/09/10/进程与线程/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 
+      <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 
+      许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>i am dying for knowledge</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
   </article>
-   
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2022/03/23/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" title="初始化列表"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/07/30/%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BFfunction%E7%9A%84%E5%AE%9E%E9%AA%8C/" title="std::function的实验"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -432,6 +569,37 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
