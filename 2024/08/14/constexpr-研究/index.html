@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>constexpr 研究 | daidaini&#39;s blogs</title>
+  <meta name="description" content="c++11之前的编译期常量编译器要求编译期间就要确定的，除了变量的类型，最频繁出现的就是 sizeof、枚举(enum)。而使用时，需要用到编译期常量的则是：  switch 语句中的case标签 模板(template)的模板参数  编译期常量的来源sizeof1234int someArr &#x3D; &#123;5,2,0&#125;;constexpr int a &#x3D; sizeof(someArr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="constexpr 研究">
+<meta property="og:url" content="https://daidaini.github.io/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="c++11之前的编译期常量编译器要求编译期间就要确定的，除了变量的类型，最频繁出现的就是 sizeof、枚举(enum)。而使用时，需要用到编译期常量的则是：  switch 语句中的case标签 模板(template)的模板参数  编译期常量的来源sizeof1234int someArr &#x3D; &#123;5,2,0&#125;;constexpr int a &#x3D; sizeof(someArr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daidaini.github.io/images/%E6%84%9F%E6%82%9F.jpg">
+<meta property="article:published_time" content="2024-08-14T02:43:32.000Z">
+<meta property="article:modified_time" content="2024-08-14T02:50:34.362Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daidaini.github.io/images/%E6%84%9F%E6%82%9F.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-c/" rel="tag">c&#x2F;c++</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag">阅读笔记</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/c/" style="font-size: 14px;">c++</a> <a href="/tags/c-c/" style="font-size: 13.5px;">c/c++</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">阅读笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/" class="title">constexpr 研究</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:43:32.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">C指针的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-constexpr-研究" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      constexpr 研究
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/" class="article-date">
+	  <time datetime="2024-08-14T02:43:32.000Z" itemprop="datePublished">2024-08-14</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/c/" rel="tag">c++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="c-11之前的编译期常量"><a href="#c-11之前的编译期常量" class="headerlink" title="c++11之前的编译期常量"></a>c++11之前的编译期常量</h2><p>编译器要求编译期间就要确定的，除了变量的类型，最频繁出现的就是 sizeof、枚举(enum)。<br>而使用时，需要用到编译期常量的则是：</p>
+<ol>
+<li>switch 语句中的case标签</li>
+<li>模板(template)的模板参数</li>
+</ol>
+<h3 id="编译期常量的来源"><a href="#编译期常量的来源" class="headerlink" title="编译期常量的来源"></a>编译期常量的来源</h3><h4 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a><code>sizeof</code></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> someArr = &#123;<span class="number">5</span>,<span class="number">2</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> a = <span class="built_in">sizeof</span>(someArr); <span class="comment">//可编译</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// sizeof(someArr) 编译期计算确定，通过constexpr验证</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><p>使用enum定义的成员，都被认为是编译期常量。<br>比如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span>&#123;</span><br><span class="line">	RED, GREEN, BLUE, YELLOW</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">assert</span>(Color::RED == <span class="number">0</span>);</span><br><span class="line"><span class="built_in">assert</span>(Color::BLUE == <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译期常量使用"><a href="#编译期常量使用" class="headerlink" title="编译期常量使用"></a>编译期常量使用</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> charArray[] = <span class="string">&quot;This is amazing&quot;</span>;</span><br><span class="line"><span class="type">int</span> someArr[<span class="number">50</span>];</span><br></pre></td></tr></table></figure>
+<p>数组的size，需要在编译期就确定，无论是通过常量数字确定，或是通过初始化指定，都是编译期就完成的动作。</p>
+<h4 id="switch-lables"><a href="#switch-lables" class="headerlink" title="switch lables"></a>switch lables</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">comment</span><span class="params">(<span class="type">int</span> phrase)</span> </span>&#123; </span><br><span class="line">	<span class="keyword">switch</span>(phrase) &#123; </span><br><span class="line">	<span class="keyword">case</span> <span class="number">42</span>: std::cout &lt;&lt; <span class="string">&quot;You are right!&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">		<span class="keyword">break</span>; </span><br><span class="line">	<span class="keyword">case</span> Color::BLUE: </span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;Don&#x27;t be upset!&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">		<span class="keyword">break</span>; </span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;z&#x27;</span>: </span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;You are the last one!&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">		<span class="keyword">break</span>; </span><br><span class="line">	<span class="keyword">default</span>: </span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;This is beyond what I can handle...&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中，不管是 42、Color::BLUE、’z’，都是在编译期就被计算认为是int类型，才能编译通过。</p>
+<h4 id="tmplate"><a href="#tmplate" class="headerlink" title="tmplate"></a>tmplate</h4><p>template的模板参数，必须使用编译期常量进行指定，如下示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="type">long</span> N, <span class="type">char</span> S, Color C&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyObj</span>&#123;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Print</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lu, %c, %d\n&quot;</span>, N, S, C);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用编译期常量的好处"><a href="#使用编译期常量的好处" class="headerlink" title="使用编译期常量的好处"></a>使用编译期常量的好处</h3><h4 id="更安全的程序"><a href="#更安全的程序" class="headerlink" title="更安全的程序"></a>更安全的程序</h4><p>示例： <strong>矩阵相乘</strong></p>
+<blockquote>
+<p>两个矩阵相乘，能够成立的前提是：<br>当且仅当左矩阵的列数等于右矩阵的行数，才能继续。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Matrix</span>&#123; </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="type">unsigned</span> rowCount; </span><br><span class="line">	<span class="type">unsigned</span> columnCount; </span><br><span class="line">&#125;; </span><br><span class="line">Matrix operaotr* (Matrix <span class="type">const</span>&amp; lhs, Matrix <span class="type">const</span>&amp; rhs)</span><br><span class="line">&#123; </span><br><span class="line">	<span class="keyword">if</span>(lhs.<span class="built_in">getColumnCount</span>() != rhs.<span class="built_in">getRowCount</span>()) </span><br><span class="line">		<span class="keyword">throw</span> <span class="built_in">HaveProblem</span>(); </span><br><span class="line">		<span class="comment">// other operation ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们在编译期就知道了矩阵的size，那么我们就可以把上边的判断放在模板中完成。<br>这样，不同size的矩阵就变成了不同类型的变量了。<br>矩阵的乘法也相应变得简单了点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> Rows, <span class="type">unsigned</span> Columns&gt; </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Matrix</span>&#123; </span><br><span class="line">	<span class="comment">//.... </span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> N, <span class="type">unsigned</span> M, <span class="type">unsigned</span> P&gt; </span><br><span class="line">Matrix&lt;N,P&gt; <span class="keyword">operator</span>* (Matrix&lt;N,M&gt; <span class="type">const</span>&amp; lhs, Matrix&lt;M,P&gt; <span class="type">const</span>&amp; rhs) &#123; </span><br><span class="line">	<span class="comment">/*...*/</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	Matrx&lt;<span class="number">1</span>,<span class="number">2</span>&gt; m12 = <span class="comment">/*...*/</span>; </span><br><span class="line">	Matrx&lt;<span class="number">2</span>,<span class="number">3</span>&gt; m23 = <span class="comment">/*...*/</span>; </span><br><span class="line">	<span class="keyword">auto</span> m13 = m12 * m23; </span><br><span class="line">	<span class="keyword">auto</span> mError = m23 * m13;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用模板确定的编译期常量，可以在编译期就能解决矩阵无法相乘的问题。</p>
+<h4 id="编译优化"><a href="#编译优化" class="headerlink" title="编译优化"></a>编译优化</h4><p>除了直接用常数来实例化模板，还有没有其他方法来告诉编译器这个是编译期常量？<br>其实：<br>编译器能根据编译期常量来实现各种不同的优化。<br>比如，<br>如果在一个if判断语句中，其中_一个条件是编译期常量_ ，编译器知道在这个判断句中一定会走某一条路，那么编译器就会 _把这个if语句优化掉_，留下只会走的那一条路。<br>代码示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) &#123; </span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;This is a 32-bit system!&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;This is a 64-bit system!&quot;</span> &lt;&lt; std::endl; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上例中，编译器就会直接利用其中某一个cout语句来替换掉整个if代码块（反正运行代码的机器是32还是64位的又不会变。）</p>
+<p>另一个可以优化的地是<strong>空间优化</strong>。<br>总体来说，如果我们的对象利用编译期常数来存储数值，那么我们就不用在这个对象中再占用内存存储这些数。</p>
+<h3 id="编译期计算"><a href="#编译期计算" class="headerlink" title="编译期计算"></a>编译期计算</h3><p>当我们通过某些手段去“胁迫”编译器，把运算任务从运行时提前到编译期，这就是编译期计算的原理。<br>如：</p>
+<ol>
+<li>示例1：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> doubleCount = <span class="number">110</span>; </span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> doubleBuffer[<span class="function">doubleCount * <span class="title">sizeof</span><span class="params">(<span class="type">double</span>)</span>] </span>= &#123;&#125;;</span><br></pre></td></tr></table></figure>
+由于doubleCount用于数组的声明，因此编译期会认为其是编译期常量</li>
+<li>示例2：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">nonsense</span><span class="params">(<span class="type">char</span> input)</span> </span>&#123; </span><br><span class="line">	<span class="keyword">switch</span>(input) &#123; </span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;some&quot;</span>[(<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) ? <span class="number">0</span> : <span class="number">1</span>]: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Aachen&quot;</span>; </span><br><span class="line">	<span class="keyword">default</span>: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Wuhan&quot;</span>; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+case标签，编译期计算出，否则编译无法通过</li>
+<li>示例3:<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">nonsense</span><span class="params">(<span class="type">char</span> input)</span> </span>&#123; </span><br><span class="line">	<span class="keyword">auto</span> <span class="type">const</span> index = (<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) ? <span class="number">0</span> : <span class="number">1</span>; </span><br><span class="line">	<span class="keyword">auto</span> <span class="type">const</span> someLabel = <span class="string">&quot;some&quot;</span>[index]; </span><br><span class="line">	<span class="keyword">switch</span>(input) &#123; </span><br><span class="line">	<span class="keyword">case</span> someLabel: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Aachen&quot;</span>; </span><br><span class="line">	<span class="keyword">default</span>: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Wuhan&quot;</span>; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+index用以”some”数组的下标，被认为编译期常量；<br>someLabel用以switch的case标签，被认为是编译期常量</li>
+</ol>
+<h4 id="使用模板进行编译期计算"><a href="#使用模板进行编译期计算" class="headerlink" title="使用模板进行编译期计算"></a>使用模板进行编译期计算</h4><p>实例化模板的参数必须为编译期常数<br>—换言之，编译器会在编译期计算 作为实例化模板参数的常量表达式。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;unsiged N&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>&lt;<span class="number">0</span>&gt;&#123; </span><br><span class="line">	<span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = <span class="number">0</span>; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>&lt;<span class="number">1</span>&gt;&#123; </span><br><span class="line">	<span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = <span class="number">1</span>; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="type">unsigned</span> N&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>&#123; </span><br><span class="line">	<span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = Fibonacci&lt;N<span class="number">-1</span>&gt;::value + Fibonacci&lt;N<span class="number">-2</span>&gt;::value; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这是一个斐波那契数列计算的示例，<br>通过template，将计算过程全都转移到了编译期。</p>
+<h2 id="Constexpr"><a href="#Constexpr" class="headerlink" title="Constexpr"></a>Constexpr</h2><p>C++11后，引入了constexpr，<br>以及使用constexpr标识的编译期函数( <em>constexpr function</em>)</p>
+<h3 id="constexpr-function"><a href="#constexpr-function" class="headerlink" title="constexpr function"></a>constexpr function</h3><p>那斐波那契数列计算的代码可以简化为如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">unsigned</span> <span class="title">fibonacci</span><span class="params">(<span class="type">unsigned</span> i)</span></span>&#123; </span><br><span class="line">	<span class="keyword">return</span> (i &lt;= <span class="number">1u</span>) ? i : (<span class="built_in">fibonacci</span>(i<span class="number">-1</span>) + <span class="built_in">fibonacci</span>(i<span class="number">-2</span>)); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果带有<strong>constexpr</strong>的函数的参数被编译期检测为编译期常量，那么这个函数就可以自动地在编译期运行。  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span>&#123; </span><br><span class="line">	<span class="function"><span class="type">char</span> <span class="title">int_values</span><span class="params">(fibonacci(<span class="number">6</span>))</span> </span>= &#123;&#125;; <span class="comment">// 正确，数组大小在编译期被强制计算 </span></span><br><span class="line">	cout &lt;&lt; <span class="built_in">sizeof</span>(int_values) &lt;&lt;endl; </span><br><span class="line">	</span><br><span class="line">	<span class="comment">//cout &lt;&lt; fibonacci(argc) &lt;&lt;endl; </span></span><br><span class="line">	cout &lt;&lt; <span class="built_in">sizeof</span>(std::<span class="built_in">array</span>(<span class="type">char</span>, <span class="built_in">fibonacci</span>(argc))) &lt;&lt;endl; <span class="comment">//ERROR，模板参数要求在编译期确定fibonacci的值，但是argc是运行时参数 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="literal-type"><a href="#literal-type" class="headerlink" title="literal type"></a>literal type</h3><p>使用 constexpr 标识的常量，我们称为字面量(literal type)。  </p>
+<blockquote>
+<p>Literal types are the types of constexpr variables and they can be constructed, manipulated, and returned from constexpr functions</p>
+</blockquote>
+<p>另外，需要注意的是，使用 constexpr修饰的<strong>构造函数的类</strong>，也都是literal type。<br>因为拥有此类构造函数的类的对象可以被constexpr 函数初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Point</span>&#123; </span><br><span class="line">	<span class="type">int</span> x; </span><br><span class="line">	<span class="type">int</span> y; </span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">	<span class="function"><span class="keyword">constexpr</span> <span class="title">Point</span><span class="params">(<span class="type">int</span> ix, <span class="type">int</span> iy)</span>:x(ix),y(iy)&#123;</span>&#125; </span><br><span class="line">	<span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">getX</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">getY</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> y;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> Point p&#123;<span class="number">1</span>,<span class="number">2</span>&#125;; </span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> py = p.<span class="built_in">getY</span>(); </span><br><span class="line"><span class="type">double</span> darry[py]&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>声明为constexpr的函数，也有一些限制：</p>
+<ul>
+<li>函数体内不能有try块，以及任何static 和局部线程变量。</li>
+<li>函数中只能调用其他 constexpr 函数</li>
+<li>函数内，不能有任何运行时才会有的行为，比如抛出异常、使用new或delete操作符等</li>
+</ul>
+<p>此外，<br>如果我们给一个函数加上一个constexpr关键字，不是说我们就把这个函数绑死在编译期上了。<strong>这个函数，是能够在运行期被复用的</strong>。<br>并且，如果一旦调用被认为是运行期的，那么这个函数的返回值也不再是编译期常量了，它只被当做一个正常的函数来对待。</p>
+<p>也要注意，既然是编译期计算，那么所有运行期的检查，都不能在编译期完成。 </p>
+<h3 id="c-17中的constexpr"><a href="#c-17中的constexpr" class="headerlink" title="c++17中的constexpr"></a>c++17中的constexpr</h3><h4 id="constexpr-lambda"><a href="#constexpr-lambda" class="headerlink" title="constexpr lambda"></a>constexpr lambda</h4><p>对一个lambda而言，只要被捕获的变量是字面量类型(literal type)，那么，整个lambda 也将表现为 字面量类型。<br>举例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//显式声明为constexpr类型 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">auto</span> <span class="title">addTo</span><span class="params">(T i)</span></span>&#123; </span><br><span class="line">	<span class="keyword">return</span> [i](<span class="keyword">auto</span> j)&#123;<span class="keyword">return</span> i + j;&#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> add5 = <span class="built_in">addTo</span>(<span class="number">5</span>); </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="type">unsigned</span> N&gt; </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SomeClass</span>&#123;&#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">()</span></span>&#123; </span><br><span class="line">	<span class="comment">//在编译期常量中使用 </span></span><br><span class="line">	SomeClass&lt;add5&lt;<span class="number">22</span>&gt;&gt; someClass27; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当一个lambda函数 在 constexpr上下文中被使用，并且它满足了 constexpr的条件，<br>那么无论它有没有被显式地声明为constexpr， 它仍然是 constexpr的。<br>参考：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> answer = [](<span class="type">int</span> n)&#123; </span><br><span class="line">	<span class="keyword">return</span> n <span class="number">+32</span>; </span><br><span class="line">&#125;; </span><br><span class="line"><span class="comment">//在一个constexpr的环境中被使用 </span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> rsp = <span class="built_in">answer</span>(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>当一个 lambda 表达式被显式或隐式地声明为constexpr， 它可以被转换成一个constexpr 的函数指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> Increment = [](<span class="type">int</span> n)&#123; </span><br><span class="line">	<span class="keyword">return</span> n + <span class="number">1</span>; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">//转为函数指针</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="title">int</span><span class="params">(*<span class="type">int</span>)</span><span class="params">(<span class="type">int</span>)</span> </span>= Increment;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="constexpr-if"><a href="#constexpr-if" class="headerlink" title="constexpr if"></a>constexpr if</h4><p>传统的 if-else 语句是在 执行期进行条件判断与选择的，因而在泛型编程中，无法使用。<br>c++17 引入 constexpr if 可以在编译期进行条件判断。<br>当然，这个判断的条件也是需要编译期可以计算出来的。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; </span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">to_string</span><span class="params">(T t)</span></span>&#123; </span><br><span class="line">	<span class="function"><span class="keyword">if</span> <span class="title">constexpr</span><span class="params">(std::is_integral&lt;T&gt;)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> std::<span class="built_in">to_string</span>(t); </span><br><span class="line">	&#125;<span class="keyword">else</span>&#123; </span><br><span class="line">		<span class="keyword">return</span> t; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<!-- 文章独占的资源图片 文章目录  -->
+<p><img src="/images/%E6%84%9F%E6%82%9F.jpg" alt="感悟"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/" title="constexpr 研究" target="_blank" rel="external">https://daidaini.github.io/2024/08/14/constexpr-研究/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" title="循环引用问题的产生和处理"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>
