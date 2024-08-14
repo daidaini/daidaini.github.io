@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>回调函数的理解 | daidaini&#39;s blogs</title>
+  <meta name="description" content="回调函数的基本定义回调函数定义上来说，指的就是作为另外一个函数的参数的函数。 实现原理，可以简单概括为：  存在一个函数，它的入参中有一个函数指针（能传入函数地址即可）。顺序执行函数内部代码时，在适合的时候使用这个函数指针，以达到希望的结果。（比如，传出某些计算出来的数据，或者生成某些需要给其他调用者的信息等）  C语言中的回调函数大多都是 void*的形式存在，而void*指代的即是回调函数的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回调函数的理解">
+<meta property="og:url" content="https://daidaini.github.io/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="回调函数的基本定义回调函数定义上来说，指的就是作为另外一个函数的参数的函数。 实现原理，可以简单概括为：  存在一个函数，它的入参中有一个函数指针（能传入函数地址即可）。顺序执行函数内部代码时，在适合的时候使用这个函数指针，以达到希望的结果。（比如，传出某些计算出来的数据，或者生成某些需要给其他调用者的信息等）  C语言中的回调函数大多都是 void*的形式存在，而void*指代的即是回调函数的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-09T02:30:40.000Z">
+<meta property="article:modified_time" content="2024-08-14T02:07:29.481Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="C++学习">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">C++标准库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E7%89%B9%E6%80%A7/" rel="tag">C++特性</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">C++学习</a> <a href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 13.5px;">C++标准库</a> <a href="/tags/C-%E7%89%B9%E6%80%A7/" style="font-size: 14px;">C++特性</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 13px;">C语言</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 13px;">数据结构与算法</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 13.5px;">笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-11/">C++11</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">C指针的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" class="title">理解CPP的移动语义</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-回调函数的理解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      回调函数的理解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+	  <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/C-11/">C++11</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <hr>
+<h2 id="回调函数的基本定义"><a href="#回调函数的基本定义" class="headerlink" title="回调函数的基本定义"></a>回调函数的基本定义</h2><p>回调函数定义上来说，指的就是作为另外一个函数的参数的函数。</p>
+<p>实现原理，可以简单概括为：</p>
+<blockquote>
+<p>存在一个函数，它的入参中有一个函数指针（能传入函数地址即可）。<br>顺序执行函数内部代码时，在适合的时候使用这个函数指针，以达到希望的结果。<br>（比如，传出某些计算出来的数据，或者生成某些需要给其他调用者的信息等）</p>
+</blockquote>
+<p>C语言中的回调函数大多都是 void*的形式存在，而void*指代的即是回调函数的函数指针。  </p>
+<p>如下示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">Sum</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//cbfunc，用以传入函数指针</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SomeFunc</span><span class="params">(<span class="type">void</span>* cbfunc, <span class="type">int</span> param1, <span class="type">int</span> param2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="type">int</span> result = <span class="built_in">cbfunc</span>(param1, param2);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用</span></span><br><span class="line"><span class="built_in">SomeFunc</span>(Sum, <span class="number">2</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="回调函数的作用"><a href="#回调函数的作用" class="headerlink" title="回调函数的作用"></a>回调函数的作用</h2><h3 id="延迟执行"><a href="#延迟执行" class="headerlink" title="延迟执行"></a>延迟执行</h3><p>回调函数的这个用处，可以从上述代码中就能略知一二。<br>调用SomeFunc函数的时候传入了Sum方法，但是Sum方法的执行却需要在函数内部执行到对应代码的时候。</p>
+<p>此外，我们平时使用的标准库的算法，大多也是处于这种目的来使用回调函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt; vec&#123;</span><br><span class="line">	<span class="string">&quot;abcdef&quot;</span>, <span class="string">&quot;123456&quot;</span>, <span class="string">&quot;abcdef123456&quot;</span>, <span class="string">&quot;123456abcdef&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">std::for_each(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(),</span><br><span class="line">			  [](<span class="type">const</span> std::string &amp;str)</span><br><span class="line">			  &#123;</span><br><span class="line">				  <span class="keyword">if</span> (str.<span class="built_in">length</span>() &gt; <span class="number">10</span>)</span><br><span class="line">				  &#123;</span><br><span class="line">					  std::cout &lt;&lt; str &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">				  &#125;</span><br><span class="line">			  &#125;);</span><br></pre></td></tr></table></figure>
+<p>标准库的算法，大多都是类似上述的方法，通过Lambda函数作为回调函数的形式来完成使用。</p>
+<hr>
+<h3 id="分离调用者和被调用者"><a href="#分离调用者和被调用者" class="headerlink" title="分离调用者和被调用者"></a>分离调用者和被调用者</h3><p>回调函数可以使调用者不需要关心谁是被调用者，<br>只需要知道，存在一个具有某种特定原型、某些限制条件的被调用函数。</p>
+<p>回调函数的这个作用，通常可用于不同模块之间的异步数据通知。  </p>
+<p>而怎么使用回调函数达到这个设计，在C++中有多种模式，除了上边已经提到的函数指针和lambda函数，还可以使用函数模板std::funciton 或者纯虚抽象类的形式。</p>
+<h4 id="std-function"><a href="#std-function" class="headerlink" title="std::function"></a>std::function</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Callback</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnResponse</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *data, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Calling OnResponse :&quot;</span>;</span><br><span class="line">        cout &lt;&lt; std::<span class="built_in">string</span>(data, len) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Callback</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">Callback</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> std::function&lt;<span class="type">void</span>(<span class="type">const</span> <span class="type">char</span> *, <span class="type">int</span>)&gt; OnRspFuncType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Client</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">RegisterCallback</span><span class="params">(OnRspFuncType func)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        onRspFunc_ = std::<span class="built_in">move</span>(func);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Running</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            this_thread::<span class="built_in">sleep_for</span>(chrono::<span class="built_in">milliseconds</span>(i));</span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">20</span> == <span class="number">5</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                std::string content = fmt::format(<span class="string">&quot;SendBack: &#123;&#125;&quot;</span>, i);</span><br><span class="line">                <span class="built_in">onRspFunc_</span>(content.<span class="built_in">data</span>(), (<span class="type">int</span>)content.<span class="built_in">length</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    OnRspFuncType onRspFunc_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上述例子使用c++11的 std::function 来定义回调函数的类型。<br>std::function 配合 std::bind使用，可以达到回调函数的参数传递的目的。<br>相对直接使用函数指针，这么使用至少可以保证类型安全，且编译器的检查可以确保调用正确。  </p>
+<p>使用上述回调类的代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Callback cb;</span><br><span class="line">    Client cli;</span><br><span class="line">    cli.<span class="built_in">RegisterCallback</span>(std::<span class="built_in">bind</span>(&amp;Callback::OnResponse, &amp;cb, placeholders::_1, placeholders::_2));</span><br><span class="line">    cli.<span class="built_in">Running</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="纯虚抽象类"><a href="#纯虚抽象类" class="headerlink" title="纯虚抽象类"></a>纯虚抽象类</h4><p>当然，除了上述的 函数指针、lambda函数、std::function这些，我们平时比较常见的使用回调函数的形式是纯虚的抽象类接口的形式。</p>
+<p>举个例子来说明下纯虚类对回调函数的使用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//纯虚抽象类定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CallbackInterface</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnResponse</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *data, <span class="type">int</span> len)</span></span>&#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">CallbackInterface</span>()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//被调用者继承抽象类，实现具体回调</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Callback</span> : <span class="keyword">public</span> CallbackInterface</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnResponse</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *data, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Calling OnResponse :&quot;</span>;</span><br><span class="line">        cout &lt;&lt; std::<span class="built_in">string</span>(data, len) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Callback</span>() = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">Callback</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用者代码</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Client</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">RegisterCallback</span><span class="params">(CallbackInterface* cb)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cb_ = cb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//模拟使用回调函数</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Running</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            this_thread::<span class="built_in">sleep_for</span>(chrono::<span class="built_in">milliseconds</span>(i));</span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">20</span> == <span class="number">5</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                std::string content = fmt::format(<span class="string">&quot;SendBack: &#123;&#125;&quot;</span>, i);</span><br><span class="line">                cb_-&gt;<span class="built_in">OnResponse</span>(content.<span class="built_in">data</span>(), (<span class="type">int</span>)content.<span class="built_in">length</span>()); <span class="comment">// error</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    CallbackInterface *cb_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Client cli;</span><br><span class="line">    CallbackInterface* cb = <span class="keyword">new</span> Callback;</span><br><span class="line">    cli.<span class="built_in">RegisterCallback</span>(cb);</span><br><span class="line">    cli.<span class="built_in">Running</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里这个回调类只声明了一个回调函数，因此可能感觉使用纯虚类有一点迂回。<br>但如果是需要多个回调函数的场景，使用这种方式的话，就比较简便了，（因为注册的调用只需要一次即可）。  </p>
+<hr>
+<p>最后补充一点，C++里的纯虚函数，在Java里其实就是Interace，顾名思义，够明显了。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" title="回调函数的理解" target="_blank" rel="external">https://daidaini.github.io/2023/02/09/回调函数的理解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" title="循环引用问题的产生和处理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" title="二分法的理解"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>

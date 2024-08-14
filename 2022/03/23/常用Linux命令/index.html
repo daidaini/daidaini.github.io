@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>常用Linux命令 | daidaini&#39;s blogs</title>
+  <meta name="description" content="文件操作相关 chmodchmod有两种操作方式,一种为普通授权法： 1234chmod +x a.txt  #给a.txt可执行的权限chmod +r a.txt  #给a.txt可读的权限  文件权限，’r’ 代表可读(4)，’w’代表可写(2)， ‘x’代表可执行(1) 上面括号内的数字 代表 “8421法”，即第二种操作方式。 12chmod 777 a.txt  #表示给a.txt所有权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用Linux命令">
+<meta property="og:url" content="https://daidaini.github.io/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="文件操作相关 chmodchmod有两种操作方式,一种为普通授权法： 1234chmod +x a.txt  #给a.txt可执行的权限chmod +r a.txt  #给a.txt可读的权限  文件权限，’r’ 代表可读(4)，’w’代表可写(2)， ‘x’代表可执行(1) 上面括号内的数字 代表 “8421法”，即第二种操作方式。 12chmod 777 a.txt  #表示给a.txt所有权">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-23T13:14:28.000Z">
+<meta property="article:modified_time" content="2024-08-14T02:07:29.481Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">C++标准库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E7%89%B9%E6%80%A7/" rel="tag">C++特性</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">C++学习</a> <a href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 13.5px;">C++标准库</a> <a href="/tags/C-%E7%89%B9%E6%80%A7/" style="font-size: 14px;">C++特性</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 13px;">C语言</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 13px;">数据结构与算法</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 13.5px;">笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-11/">C++11</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">C指针的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" class="title">理解CPP的移动语义</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-常用Linux命令" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      常用Linux命令
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="article-date">
+	  <time datetime="2022-03-23T13:14:28.000Z" itemprop="datePublished">2022-03-23</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="文件操作相关"><a href="#文件操作相关" class="headerlink" title="文件操作相关"></a>文件操作相关</h2><hr>
+<h3 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h3><p>chmod有两种操作方式,<br>一种为普通授权法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod +x a.txt  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">给a.txt可执行的权限</span></span><br><span class="line">chmod +r a.txt  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">给a.txt可读的权限</span></span><br></pre></td></tr></table></figure>
+
+<p>文件权限，’r’ 代表可读(4)，’w’代表可写(2)， ‘x’代表可执行(1)</p>
+<p>上面括号内的数字 代表 “8421法”，即第二种操作方式。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 a.txt  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">表示给a.txt所有权限</span></span><br></pre></td></tr></table></figure>
+
+<p>关于文件的权限信息说明：</p>
+<blockquote>
+<p>-r-xr-xr-x 1 yubo yubo 342 May 27 22:06 hello.sh*</p>
+</blockquote>
+<p>前面的 “-r-xr-xr-x” 即对应文件的权限信息。</p>
+<p>其中，第一位是’-‘ 这个表示文件， 如果是’d’就表示文件夹；</p>
+<p>后面分为三组，分别表示 “拥有者的权限”，“拥有者所在的组、组员的权限”，“其他用户的权限”；</p>
+<p>每一组的权限，都是三位，分别代表 读写和执行的权限，所以，如果三个权限都有，就稳定为 “rwx”。</p>
+<p>对上述文件，修改，使文件所有者有 所有权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 hello.sh</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">ll</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">-rwxr-xr-x 1 yubo yubo  342 May 27 22:06 hello.sh*</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/205217949">[Linux]创建新用户及用户权限 - 知乎 (zhihu.com)</a></p>
+<h3 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h3><p>sudo 命令 以系统管理者的身份执行，也就是说，经由sudo执行的命令就好像 是 root亲自执行。<br>需要输入自己的账户密码。<br>使用权限: 在 &#x2F;etc&#x2F;sudoers 中出现的使用者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">以yao用户身份编辑 home目录下的index.html文件</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> -u yao vi ~www/index.html</span>  </span><br></pre></td></tr></table></figure>
+
+<h3 id="编辑文件"><a href="#编辑文件" class="headerlink" title="编辑文件"></a>编辑文件</h3><p><strong>命令: vi 和 vim</strong></p>
+<p>操作： vi + 文件名</p>
+<p>进入后，操作界面有三种模式：命令模式、插入模式和底行模式</p>
+<p>三种模式相关定义：</p>
+<p><strong>命令模式</strong></p>
+<ul>
+<li><p>刚进入文件就是命令模式，通过方向键控制光标位置，</p>
+</li>
+<li><p>使用命令”dd”删除当前整行</p>
+</li>
+<li><p>使用命令”&#x2F;字段”进行查找</p>
+</li>
+<li><p>按”i”在光标所在字符前开始插入</p>
+</li>
+<li><p>按”a”在光标所在字符后开始插入</p>
+</li>
+<li><p>按”o”在光标所在行的下面另起一新行插入</p>
+</li>
+<li><p>按”：”进入底行模式</p>
+</li>
+</ul>
+<p><strong>插入模式</strong></p>
+<ul>
+<li><p>此时可以对文件内容进行编辑，左下角会显示 “– 插入 –””</p>
+</li>
+<li><p>按”ESC”进入底行模式</p>
+</li>
+<li><p>底行模式</p>
+</li>
+<li><p>退出编辑 :q</p>
+</li>
+<li><p>强制退出 :q!</p>
+</li>
+<li><p>保存并退出 :wq</p>
+</li>
+</ul>
+<p><strong>操作步骤示例</strong></p>
+<ol>
+<li><p>保存并退出编辑  “ESC” -&gt; 输入”:” -&gt; 输入”wq”,回车</p>
+</li>
+<li><p>取消操作：按”ESC” -&gt; 输入”:” -&gt; 输入”q!”,回车</p>
+</li>
+</ol>
+<p><strong>补充</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim +10 filename.txt </span><br><span class="line">#打开文件并跳到第10行</span><br><span class="line">vim -R /etc/passwd </span><br><span class="line">#以只读模式打开文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件创建查看删除"><a href="#文件创建查看删除" class="headerlink" title="文件创建查看删除"></a>文件创建查看删除</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建文件</span></span><br><span class="line">touch a.txt</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">移动文件</span></span><br><span class="line">mv [选项] 文件名 [目标文件名|目标路径]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制文件</span></span><br><span class="line">cp [选项] 源文件 目标文件</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制文件夹</span></span><br><span class="line">cp -r dir1 dir2</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删文件 -f 忽略警告信息 -i 删除前先询问</span></span><br><span class="line">rm [选项] 文件</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除文件夹</span> </span><br><span class="line">rm -r 目录名</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重命名</span></span><br><span class="line">rename libfmt.a libfmt.a.bak libfmt.a</span><br></pre></td></tr></table></figure>
+
+<h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><p>显示两个文件的差异  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff -c file1 file2</span><br></pre></td></tr></table></figure>
+
+<h3 id="压缩-解压文件"><a href="#压缩-解压文件" class="headerlink" title="压缩&#x2F;解压文件"></a>压缩&#x2F;解压文件</h3><blockquote>
+<p>tar[选项][文件]</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">打包并压缩文件，压缩包后缀为 .tar.gz</span></span><br><span class="line">tar -czvf *.tar.gz</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">解压并展开压缩包，压缩包后缀为 .tar.gz</span></span><br><span class="line">tar -xzvf *.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p><strong>具体参数参考如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数</td>
+<td>作用</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>创建压缩文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>解开压缩文件</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>查看压缩包内有哪些文件</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>用Gzip压缩或者解压</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>用bip2压缩或者解压</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示压缩或者解压的过程</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>目标文件名</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留原始的权限和属性</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>使用绝对路径来压缩</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定解压到的目录</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h2><h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">find /bin -name &#x27;a*&#x27; </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查找bin目录下所有以a开头的文件或者目录</span></span><br><span class="line"></span><br><span class="line">find . -name &#x27;*.c&#x27; </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将当前目录及其子目录下，所有.c文件找出来</span></span><br><span class="line"></span><br><span class="line">find . -type f</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将当前目录及其子目录下的所有一般文件列出</span></span><br><span class="line"></span><br><span class="line">find . -ctime -20</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将当前目录及其子目录下 所有最近20天更新过的文件列出</span></span><br><span class="line"></span><br><span class="line">find . -type f -perm 664 -exec ls -l &#123;&#125; \;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将当前目录及其子目录下， 所有权限为664的文件，列出</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">解释：这个命令可以分为两部分看，前半部分，到 -perm 664表示是查看文件的信息的权限；</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">后半部分，表示从执行<span class="built_in">ls</span> -l 命令获取到的信息中进行筛选。</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://note.youdao.com/s/RlB4GHsJ">find工具笔记</a></p>
+<h3 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h3><p>将和ls命令相关的文件都找出来  参数是某个命令（验证过 cmake ssh等）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis ls</span><br></pre></td></tr></table></figure>
+
+<h3 id="which"><a href="#which" class="headerlink" title="which"></a>which</h3><p>which指令 会在环境变量 $PATH 设置的目录里查找符合条件的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which is bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><blockquote>
+<p>grep [选项] [文件]</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在文件中查找字符串（不区分大小写）</span></span><br><span class="line">grep -i &quot;the&quot; demo_file  </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在一个文件夹中递归查询包括指定字符串的文件</span></span><br><span class="line">grep -r &quot;remesh&quot; *  </span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-b</td>
+<td>将可执行文件(binary) 当作文本文件(txt)来搜索</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>仅显示查找到的次数</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反向选择–仅列出没有“关键词”的行</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h2><h3 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">该命令用于从网上下载内容</span></span><br><span class="line">wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.1.tar.gz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">下载文件并以指定的文件名保存文件</span></span><br><span class="line">wget -O nagios.tar.gz http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ftp IP/hostname //访问ftp服务器</span><br><span class="line">mls *.html - //显示远程主机上文件列表</span><br></pre></td></tr></table></figure>
+
+<h3 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h3><p>通过scp命令在多台服务器中相互复制、传输文件(secure copy的缩写)<br>scp 是linux系统下基于ssh登录进行安全的远程文件拷贝命令<br>scp是加密的， rcp是不加密的， scp是rcp的加强版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp /opt/data.txt  192.168.1.101:/opt/    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将本地opt目录下的data文件发送到192.168.1.101服务器的opt目录下</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="网络操作"><a href="#网络操作" class="headerlink" title="网络操作"></a>网络操作</h2><h3 id="防火墙操作"><a href="#防火墙操作" class="headerlink" title="防火墙操作"></a>防火墙操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">service iptables status      //查看iptables服务的状态</span><br><span class="line">service iptables start       //开启iptables服务</span><br><span class="line">service iptables stop        //停止iptables服务</span><br><span class="line">service iptables restart     //重启iptables服务</span><br><span class="line">chkconfig iptables off       //关闭iptables服务的开机自启动</span><br><span class="line">chkconfig iptables on        //开启iptables服务的开机自启动</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="查看网络信息"><a href="#查看网络信息" class="headerlink" title="查看网络信息"></a>查看网络信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看与IP的连接情况</span></span><br><span class="line">ping IP </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看当前系统端口</span></span><br><span class="line">netstat -an  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看指定端口</span></span><br><span class="line">netstat -an | grep 8080  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">远程主机，需要输入用户名密码</span></span><br><span class="line">ssh IP  </span><br></pre></td></tr></table></figure>
+
+<h3 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h3><p>列出当前系统打开的文件描述符（list openfiles）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">仅显示TCP连接（同理UDP）</span></span><br><span class="line">lsof -iTCP</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示与指定端口相关的网络信息</span></span><br><span class="line">lsof -i:3322</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示指定到指定主机的连接</span></span><br><span class="line">lsof -i@192.168.6.25</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">加端口</span></span><br><span class="line">lsof -i@192.168.6.25:23386</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">找出监听端口</span></span><br><span class="line">lsof -i -sTCP:LISTEN</span><br><span class="line">lsof -i | grep -i LISTEN</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/450234442">Linux 命令神器：lsof</a></p>
+<h3 id="修改IP"><a href="#修改IP" class="headerlink" title="修改IP"></a>修改IP</h3><p>修改网络配置文件，文件地址为</p>
+<blockquote>
+<p>&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth0</p>
+</blockquote>
+<p><strong>主要对应以下配置：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet               //网络类型</span><br><span class="line">BOOTPROTO=static            //静态IP</span><br><span class="line">DEVICE=ens00                //网卡名</span><br><span class="line">IPADDR=192.168.1.100        //设置的IP</span><br><span class="line">NETMASK=255.255.255.0       //子网掩码</span><br><span class="line">GATEWAY=192.168.1.1         //网关</span><br><span class="line">DNS1=192.168.1.1            //DNS</span><br><span class="line">DNS2=8.8.8.8                //备用DNS</span><br><span class="line">ONBOOT=yes                  //系统启动时启动此设置</span><br></pre></td></tr></table></figure>
+
+<p>修改以后，使用命令重启网卡</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置映射"><a href="#配置映射" class="headerlink" title="配置映射"></a>配置映射</h3><p>修改文件 vi &#x2F;etc&#x2F;hosts<br>在文件最后添加映射地址，示例如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.101 node1</span><br><span class="line">192.168.1.102 node2</span><br><span class="line">192.168.1.103 node3</span><br></pre></td></tr></table></figure>
+<p>配置好以后保存退出，输入命令：ping node1 ，可见实际 ping 的是 192.168.1.101。</p>
+<h3 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h3><p>抓包分析工具<br><a target="_blank" rel="noopener" href="https://luyuhuang.tech/2022/12/05/tcpdump.html">使用tcpdump抓包</a></p>
+<p>      </p>
+<h2 id="查看系统信息"><a href="#查看系统信息" class="headerlink" title="查看系统信息"></a>查看系统信息</h2><hr>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看操作系统版本信息</span></span><br><span class="line">cat /proc/version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示一些重要的系统信息，例如：内核名称、主机名、内核版本号、处理器类型之类信息</span></span><br><span class="line">uname -a</span><br></pre></td></tr></table></figure>
+
+<h3 id="进程信息"><a href="#进程信息" class="headerlink" title="进程信息"></a>进程信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看所有正在运行的进程</span></span><br><span class="line">ps -ef</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">杀死pid进程</span></span><br><span class="line">kill pid</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">强制杀死该进程</span></span><br><span class="line">kill -9 pid</span><br></pre></td></tr></table></figure>
+
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">service命令用于运行System V init脚本，这些脚本一般位于/etc/init.d 文件中</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">该命令可以直接运行脚本，而不需要加上路径</span></span><br><span class="line">service ssh status  #查看服务状态</span><br><span class="line">service --status-all  #查看所有服务状态</span><br><span class="line">service ssh restart  #重启服务</span><br></pre></td></tr></table></figure>
+
+<h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">这个命令用于显示系统当前内存的使用情况，包括已用内存、可用内存和交换内存的情况</span></span><br><span class="line">free -g #以g为单位输出内存的使用量，-g为GB，-m为MB，-k为KB，-b为字节</span><br><span class="line">free -t #查看所有内存的汇总</span><br></pre></td></tr></table></figure>
+
+<h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><p>显示当前系统中占用资源最多的一些进程，shift+m 按照内存大小进行排序</p>
+<h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示文件系统的磁盘使用情况</span></span><br><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看当前环境变量</span></span><br><span class="line">echo $PATH</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置环境变量值</span></span><br><span class="line">export PATH=</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加一个路径</span></span><br><span class="line">export PATH=$PATH:newdir</span><br></pre></td></tr></table></figure>
+
+<h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p>用于动态查看命令执行的结果<br>比如，如果想要每隔一秒高亮显示 网络连接数的变化情况，则：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 1 -d netstat -ant</span><br></pre></td></tr></table></figure>
+<p>每隔一秒高亮显示 http 连接数的变化情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 1 -d &#x27;pstree | grep  http&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h3><p>常用系统性能分析工具，主要用来分析系统的内存使用情况，也常用来分析CPU上下文切换和中断的次数</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><hr>
+<h3 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h3><p>root权限下，使用 useradd 命令进行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd -m daidaini -c &quot;test creating a new user&quot;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定密码</span></span><br><span class="line">passwd daidaini ***</span><br></pre></td></tr></table></figure>
+
+<h3 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h3><p>no hang up 的缩写，不要挂起的意思，这个是常用的后台启动程序的方法。   </p>
+<p>在交互环境下，我们可以直接将一些信息输出到当前界面；<br>那后台启动的程序，我们就会通常使用下边的命令，指定将信息输出到某个文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt; some.file 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p><strong>命令解释</strong></p>
+<ul>
+<li>1 表示标准输出</li>
+<li>2 表示文件标准错误输出</li>
+<li>2&gt;1&amp; 表示将两者合并，合并到的文件为some.file</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://note.youdao.com/s/Eson3OZC">常见命令</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2022/03/23/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" title="常用Linux命令" target="_blank" rel="external">https://daidaini.github.io/2022/03/23/常用Linux命令/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" title="理解CPP的移动语义"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2022/03/23/%E3%80%8ALinux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="Linux多线程服务端编程"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>

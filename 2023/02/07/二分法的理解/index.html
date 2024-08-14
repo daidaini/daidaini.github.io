@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>二分法的理解 | daidaini&#39;s blogs</title>
+  <meta name="description" content="使用循环实现先看一道leetcode上的题：在排序数组中查找元素的第一个和最后一个位置 题目明确要求 实现的时间复杂度为 O(log n)。这个要求，很容易让我们联想到二分法这个算法。再拆解下题目描述，已经是有序数组，满足二分查找的前提，那么只需要通过二分法找到目标元素的位置，再向前后迭代获取最左和最右的索引即是题目所需要的答案。 列一下所实现的二分查找的代码： 12345678910111213">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二分法的理解">
+<meta property="og:url" content="https://daidaini.github.io/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="使用循环实现先看一道leetcode上的题：在排序数组中查找元素的第一个和最后一个位置 题目明确要求 实现的时间复杂度为 O(log n)。这个要求，很容易让我们联想到二分法这个算法。再拆解下题目描述，已经是有序数组，满足二分查找的前提，那么只需要通过二分法找到目标元素的位置，再向前后迭代获取最左和最右的索引即是题目所需要的答案。 列一下所实现的二分查找的代码： 12345678910111213">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-08-14T02:07:29.481Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">C++标准库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E7%89%B9%E6%80%A7/" rel="tag">C++特性</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">C++学习</a> <a href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 13.5px;">C++标准库</a> <a href="/tags/C-%E7%89%B9%E6%80%A7/" style="font-size: 14px;">C++特性</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 13px;">C语言</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 13px;">数据结构与算法</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 13.5px;">笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-11/">C++11</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">C指针的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" class="title">理解CPP的移动语义</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-二分法的理解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二分法的理解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+	  <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="使用循环实现"><a href="#使用循环实现" class="headerlink" title="使用循环实现"></a>使用循环实现</h2><p>先看一道leetcode上的题：<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/">在排序数组中查找元素的第一个和最后一个位置</a></p>
+<p>题目明确要求 实现的时间复杂度为 O(log n)。这个要求，很容易让我们联想到二分法这个算法。<br>再拆解下题目描述，已经是有序数组，满足二分查找的前提，那么只需要通过二分法找到目标元素的位置，再向前后迭代获取最左和最右的索引即是题目所需要的答案。</p>
+<p>列一下所实现的二分查找的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//只返回查找到的位置，不确定是最左或最右</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">BinarySearch</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(nums.<span class="built_in">size</span>() &gt;= <span class="number">2</span>);</span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (left &lt;= right)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> mid = (right + left) / <span class="number">2</span>;</span><br><span class="line">		<span class="type">int</span> midval = nums[mid];</span><br><span class="line">		<span class="keyword">if</span> (midval &lt; target) <span class="comment">//往右折</span></span><br><span class="line">		&#123;</span><br><span class="line">			left = mid + <span class="number">1</span>;	<span class="comment">//由于left &lt;= mid ，所以要确保left右移需要加1</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (midval &gt; target) <span class="comment">//往左折</span></span><br><span class="line">		&#123;</span><br><span class="line">			right = mid - <span class="number">1</span>;	<span class="comment">//由于mid&lt;right, 必会使right左移，但这里mid已经检查过一遍，最差情况会导致再检查一次，</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> mid;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码理解:</p>
+<ul>
+<li>二分查找需要确定区间，每次折半，所以需要定义左右端点位置 left、right</li>
+<li>在循环内逐步缩小区间，结束区间的条件定为 left&lt;&#x3D;right，意为在left&#x3D;&#x3D;right还要进行一次判断，该值是不是target目标值</li>
+<li>折半查找，需要定义mid位置，mid &#x3D; (right+left)&#x2F;2，这样做的话，在left&lt;right时，必然会有mid&lt;right，mid&gt;&#x3D;left条件的成立</li>
+<li>将mid位置的值与target进行比较，三种情况分别处理。<ul>
+<li>相等则返回，表示已查找到</li>
+<li>中值小于target值，表示target值在右区间，需要将left端点右移，left &#x3D; mid+1，需要加1，这样的最极端情况是left&#x3D;&#x3D;right，循环后再判断一次即可</li>
+<li>中值大于target值，表示target值在左区间，需要将right端点左移，right &#x3D; mid-1，减1，这样的最极端情况是left&#x3D;&#x3D;mid的时候，这种情况的时候表示无法左移了，那么right&#x3D;&#x3D;mid-1&#x3D;&#x3D;left-1，会退出循环，也是不存在遗漏查找的情况</li>
+<li>默认返回-1，表示查找不到；如果查找到，会直接在循环中就返回</li>
+</ul>
+</li>
+</ul>
+<p>值得注意的是，如果代码如上，那么mid &#x3D; (right+left)&#x2F;2 和 mid &#x3D; (right+left+1)&#x2F;2 两种情况的处理没有区别。  </p>
+<h2 id="使用递归实现"><a href="#使用递归实现" class="headerlink" title="使用递归实现"></a>使用递归实现</h2><p>依然通过leetcode上一个题来举例：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/">搜索旋转排序数组 II</a><br>旋转后的数组是没法保证折半之后左右区间都是肯定满足左区间的数小于等于右区间的数的<br>忽略一些细节的判断，我们可以简单的在折半之后两边都进行查找，这样的话，使用递归方法来实现会使代码简单直观很多。  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">BinarySearch</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target, <span class="type">int</span> left, <span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (left &gt; right)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">	<span class="type">int</span> midval = nums[mid];</span><br><span class="line">	<span class="keyword">if</span> (midval == target)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> result = <span class="built_in">BinarySearch</span>(nums, target, mid + <span class="number">1</span>, right);</span><br><span class="line">	<span class="keyword">if</span> (result != <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">BinarySearch</span>(nums, target, left, mid - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后简但调用就可以达到查找的目的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">BinarySearch</span>(nums, target, <span class="number">0</span>, nums.<span class="built_in">size</span>() - <span class="number">1</span>) != <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>二分折半的思想是共通的，注意临界点的情况即可。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" title="二分法的理解" target="_blank" rel="external">https://daidaini.github.io/2023/02/07/二分法的理解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" title="回调函数的理解"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" title="C指针的理解"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>

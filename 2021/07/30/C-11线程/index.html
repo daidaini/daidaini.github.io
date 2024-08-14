@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>C++标准线程库的使用 | daidaini&#39;s blogs</title>
+  <meta name="description" content="引子c++11后新增了线程库，最主要最熟知的应该就是 std::thread，以及配合以线程同步用的std::mutex和std::conditon_variable。 对于多核环境的高性能并发处理，后端开发最需要熟知的就是线程池。线程池本质上就是提前建立好多个线程，在需要使用的时候唤醒一个来处理，不需要的时候让其睡眠不占用资源。 以下先介绍标准线程库的一些使用方法，然后再依次实现下线程池。  使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++标准线程库的使用">
+<meta property="og:url" content="https://daidaini.github.io/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="引子c++11后新增了线程库，最主要最熟知的应该就是 std::thread，以及配合以线程同步用的std::mutex和std::conditon_variable。 对于多核环境的高性能并发处理，后端开发最需要熟知的就是线程池。线程池本质上就是提前建立好多个线程，在需要使用的时候唤醒一个来处理，不需要的时候让其睡眠不占用资源。 以下先介绍标准线程库的一些使用方法，然后再依次实现下线程池。  使">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-30T01:59:29.000Z">
+<meta property="article:modified_time" content="2024-08-14T02:07:29.481Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="C++标准库">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E5%AD%A6%E4%B9%A0/" rel="tag">C++学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">C++标准库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E7%89%B9%E6%80%A7/" rel="tag">C++特性</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">C++学习</a> <a href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 13.5px;">C++标准库</a> <a href="/tags/C-%E7%89%B9%E6%80%A7/" style="font-size: 14px;">C++特性</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 13px;">C语言</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 13px;">数据结构与算法</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 13.5px;">笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-11/">C++11</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">C指针的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/01/31/%E7%90%86%E8%A7%A3CPP%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" class="title">理解CPP的移动语义</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-01-30T16:00:00.000Z" itemprop="datePublished">2023-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-C-11线程" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++标准线程库的使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" class="article-date">
+	  <time datetime="2021-07-30T01:59:29.000Z" itemprop="datePublished">2021-07-30</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/C-%E7%BC%96%E7%A8%8B/">C++编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/C-%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">C++标准库</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>c++11后新增了线程库，最主要最熟知的应该就是 std::thread，以及配合以线程同步用的std::mutex和std::conditon_variable。</p>
+<p>对于多核环境的高性能并发处理，后端开发最需要熟知的就是线程池。<br>线程池本质上就是提前建立好多个线程，在需要使用的时候唤醒一个来处理，不需要的时候让其睡眠不占用资源。</p>
+<p>以下先介绍标准线程库的一些使用方法，然后再依次实现下线程池。</p>
+<hr>
+<h2 id="使用std-thread库"><a href="#使用std-thread库" class="headerlink" title="使用std::thread库"></a>使用std::thread库</h2><h3 id="基本使用方式"><a href="#基本使用方式" class="headerlink" title="基本使用方式"></a>基本使用方式</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadFunc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">std::thread <span class="title">t</span><span class="params">(ThreadFunc)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果是带参数的线程函数，就可以：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadFunc</span><span class="params">(<span class="type">int</span> count)</span></span>&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">std::thread <span class="title">t</span><span class="params">(ThreadFunc, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="comment">//或者 使用&lt;functional&gt;中提供的 std::bind方法，将参数绑定到对应的线程函数上</span></span><br><span class="line"><span class="function">std::thread <span class="title">t</span><span class="params">(std::bind(ThreadFunc, <span class="number">5</span>))</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="关于线程的结束"><a href="#关于线程的结束" class="headerlink" title="关于线程的结束"></a>关于线程的结束</h3><p>线程启动后，一般需要等到线程函数运行完，线程才能结束</p>
+<p>标准库对于线程的结束也有两种方式：</p>
+<p>1） 在主线程中调用join方法，主线程就会阻塞等待到线程函数运行完，然后结束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(t.<span class="built_in">joinable</span>())</span><br><span class="line">    t.<span class="built_in">join</span>()</span><br></pre></td></tr></table></figure>
+
+<p>2）调用detach方法，将线程从主线程分离。这种形式，主线程不会被阻塞，也不会知道分离出去的线程什么时候结束。</p>
+<p>如果确定主线程肯定比线程函数晚结束，或者线程和主线程的存活时间是一致的，则可以直接在启动线程后，直接detach。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t.<span class="built_in">detach</span>();</span><br><span class="line"><span class="comment">//简便的写法，声明和detach一起调用</span></span><br><span class="line">std::<span class="built_in">thread</span>(ThreadFunc).<span class="built_in">detach</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="std-thread启动线程的其他方式"><a href="#std-thread启动线程的其他方式" class="headerlink" title="std::thread启动线程的其他方式"></a>std::thread启动线程的其他方式</h3><p>std::thread启动线程，也可以使用lambda表达式，参考如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">std::<span class="built_in">thread</span>([]()&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				cout &lt;&lt; <span class="string">&#x27;[&#x27;</span> &lt;&lt; this_thread::<span class="built_in">get_id</span>() &lt;&lt; <span class="string">&quot;]:&quot;</span> &lt;&lt; <span class="built_in">static_cast</span>&lt;<span class="type">char</span>&gt;(<span class="string">&#x27;A&#x27;</span> + i) &lt;&lt; endl;</span><br><span class="line">				this_thread::<span class="built_in">sleep_for</span>(<span class="number">10</span>ms);</span><br><span class="line">			&#125;&#125;</span><br><span class="line">           );</span><br></pre></td></tr></table></figure>
+
+
+<p>对于将参数为引用的函数来作为线程函数，也有如下两种操作可参考：</p>
+<p>1） 使用lambda表达式，如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">unordered_map&lt;<span class="type">int</span>, string&gt; myMapSrc&#123;</span><br><span class="line">	&#123;<span class="number">1</span>, <span class="string">&quot;first&quot;</span> &#125;,</span><br><span class="line">	&#123;<span class="number">2</span>, <span class="string">&quot;second&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="number">3</span>, <span class="string">&quot;third&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="number">4</span>, <span class="string">&quot;four&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="number">5</span>, <span class="string">&quot;five&quot;</span>&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//捕获列表使用 &amp; 就可以</span></span><br><span class="line">std::<span class="built_in">thread</span>([&amp;myMapSrc]()&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; item : myMapSrc)</span><br><span class="line">			&#123;</span><br><span class="line">				cout &lt;&lt; <span class="string">&#x27;[&#x27;</span> &lt;&lt; this_thread::<span class="built_in">get_id</span>() &lt;&lt; <span class="string">&quot;]:&quot;</span> &lt;&lt; item.first &lt;&lt; <span class="string">&quot; = &quot;</span> &lt;&lt; item.second &lt;&lt; endl;</span><br><span class="line">			&#125;&#125;</span><br><span class="line">	).<span class="built_in">detach</span>();</span><br></pre></td></tr></table></figure>
+
+<p>2） 使用std::bind，如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadFunc</span><span class="params">(unordered_map&lt;<span class="type">int</span>, string&gt;&amp; refRec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; item : refSrc)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&#x27;[&#x27;</span> &lt;&lt; this_thread::<span class="built_in">get_id</span>() &lt;&lt; <span class="string">&quot;]:&quot;</span> &lt;&lt; item.first &lt;&lt; <span class="string">&quot; = &quot;</span> &lt;&lt; item.second &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">std::<span class="built_in">thread</span>(std::<span class="built_in">bind</span>(ThreadFunc, std::<span class="built_in">ref</span>(myMapSrc)));</span><br></pre></td></tr></table></figure>
+
+<p>由于std::bind总是使用值拷贝的形式传参，哪怕函数声明为引用，std::bind传递的时候也是值传递。所以，标准库提供了std::ref来给std::bind传引用。</p>
+<h3 id="std-async"><a href="#std-async" class="headerlink" title="std::async"></a>std::async</h3><p>标准库，在std::thread的基础上，封装了一些方法，有std::promise，std::pacakged_task，以及std::async。</p>
+<p>这其中，std::promise以及std::pacakged_task的使用，一般还是要配合std::thread以及std::future来。</p>
+<p>这边，比较推荐使用std::async来启动一个线程来执行一个异步任务，简单的示例代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::<span class="built_in">async</span>(launch::async, ThreadFunc);</span><br><span class="line"><span class="comment">//带参数，则</span></span><br><span class="line">std::<span class="built_in">async</span>(launch::async, ThreadFunc, param1, param<span class="number">2.</span>..);</span><br></pre></td></tr></table></figure>
+
+<p>std::async 方法有返回值，类型是std::future<T></T></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">ThreadFuncStr</span><span class="params">(<span class="type">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    this_thread::<span class="built_in">sleep_for</span>(<span class="number">1</span>s);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;This is ThreadFuncStr\n&quot;</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">to_string</span>(data);</span><br><span class="line">&#125;</span><br><span class="line">std::future&lt;string&gt; result = std::<span class="built_in">async</span>(launch::async, ThreadFuncStr, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//do some other thing </span></span><br><span class="line">string str = result.<span class="built_in">get</span>();</span><br><span class="line">cout &lt;&lt; str &lt;&lt;endl;</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<p>std::async， 如果第一个参数是launch::async，那就是立即启动线程任务，但是线程启动后，不会阻塞当前线程。</p>
+<p>只有在后续调用reuslt.get()的时候，会阻塞，直到线程函数返回需要的结果。</p>
+<p><strong>使用建议：</strong></p>
+<p>推荐std::async，是因为它将thread的概念隐藏到了底层，方法本身就成为了，我就是异步去执行一个任务。</p>
+<p>所以，如果我们一旦碰到需要读写文件或者网络请求这种涉及IO，耗时不确定可能会阻塞当前运行线程的时候，都可以调用async，来启动一个异步任务完成这部分的业务处理。  </p>
+<p><strong>另外：</strong></p>
+<p>如果想使用std::thread的形式，也需要获取线程函数执行后的返回值，可以使用packaged_task，简单举例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">std::packaged_task&lt;<span class="title">string</span><span class="params">(<span class="type">int</span>)</span>&gt; <span class="title">task</span><span class="params">(ThreadFuncStr)</span></span>;	</span><br><span class="line">    std::future&lt;string&gt; async_result = task.<span class="built_in">get_future</span>();	</span><br><span class="line">    std::<span class="built_in">thread</span>(std::<span class="built_in">move</span>(task), <span class="number">100</span>).<span class="built_in">detach</span>();	</span><br><span class="line">    cout &lt;&lt; async_result.<span class="built_in">get</span>() &lt;&lt; endl;  	</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>感觉用起来，不如std::async方便，感兴趣的可以自行研究(报考std::promise 也是，它们都有各自的应用场景)。  </p>
+<hr>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>有执行一个异步任务来获取结果的需求，肯定也有不定时执行多个异步任务的需求。</p>
+<p>最典型的就是，服务端处理多个不同用户的业务逻辑的场景：</p>
+<p>1）每个用户的业务处理，一般都需要在自己独立的线程中运行；</p>
+<p>2）线程处理完一个用户的业务逻辑，还可以处理另一个用户的业务逻辑。</p>
+<p>这种情况，就比较适合用线程池了。</p>
+<p>下边就是用C++11标准库实现的线程池的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FixedThreadPool</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">using</span> FuncTaskType = std::function&lt;<span class="built_in">void</span>()&gt;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">FixedThreadPool</span>(<span class="type">size_t</span> threadCount) :</span><br><span class="line">		<span class="built_in">m_ResData</span>(<span class="built_in">make_shared</span>&lt;ResInfo&gt;())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; threadCount; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			std::<span class="built_in">thread</span>(std::<span class="built_in">bind</span>(&amp;FixedThreadPool::ThreadFunc, <span class="keyword">this</span>)).<span class="built_in">detach</span>();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~<span class="built_in">FixedThreadPool</span>()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (m_ResData != <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">guard</span><span class="params">(m_ResData-&gt;Mtx)</span></span>;</span><br><span class="line">			m_ResData-&gt;IsShutdown = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		m_ResData-&gt;Cv.<span class="built_in">notify_all</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Execute</span><span class="params">(FuncTaskType&amp;&amp; task)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">lock_guard&lt;mutex&gt; <span class="title">guard</span><span class="params">(m_ResData-&gt;Mtx)</span></span>;</span><br><span class="line">		m_ResData-&gt;Tasks.<span class="built_in">emplace</span>(std::forward&lt;FuncTaskType&gt;(task));</span><br><span class="line">		m_ResData-&gt;Cv.<span class="built_in">notify_one</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">ThreadFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">unique_lock&lt;mutex&gt; <span class="title">lk</span><span class="params">(m_ResData-&gt;Mtx)</span></span>;</span><br><span class="line">		<span class="keyword">do</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (!m_ResData-&gt;Tasks.<span class="built_in">empty</span>())</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">auto</span> currentTask = std::<span class="built_in">move</span>(m_ResData-&gt;Tasks.<span class="built_in">front</span>());</span><br><span class="line">				m_ResData-&gt;Tasks.<span class="built_in">pop</span>();</span><br><span class="line">				lk.<span class="built_in">unlock</span>();</span><br><span class="line">				<span class="built_in">currentTask</span>();</span><br><span class="line">				lk.<span class="built_in">lock</span>();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (m_ResData-&gt;IsShutdown)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				m_ResData-&gt;Cv.<span class="built_in">wait</span>(lk);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">while</span> (<span class="literal">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">ResInfo</span></span><br><span class="line">	&#123;</span><br><span class="line">		mutex Mtx;</span><br><span class="line">		condition_variable Cv;</span><br><span class="line">		<span class="type">bool</span> IsShutdown = <span class="literal">false</span>;</span><br><span class="line">		<span class="comment">//线程函数任务队列</span></span><br><span class="line">		queue&lt;FuncTaskType&gt; Tasks;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	std::shared_ptr&lt;ResInfo&gt; m_ResData;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>简单解释：</strong></p>
+<ul>
+<li><p>ResInfo 是需要的一些信息，包含线程同步用互斥量和条件变量，线程池的开关，以及存储线程任务的队列</p>
+</li>
+<li><p>ResInfo 使用 shared_ptr 是因为 每个线程都会进行一份拷贝</p>
+</li>
+<li><p>存储队列，使用queue，满足先进先出</p>
+</li>
+<li><p>线程任务，统一使用 函数模板 std::function&lt;void()&gt; ，这样，后续再配合std::bind，就可以执行所有带参数和不带参数的线程函数</p>
+</li>
+<li><p>构造的时候，直接启动对应数量的线程，每个线程的运行都封装在ThreadFunc</p>
+</li>
+<li><p>ThreadFunc 使用unique_lock 一是需要配合条件变量进行wait，</p>
+<p>二是，在将线程任务从队列中取出来之后，就不需要再锁了，可以unlock。</p>
+<p>对于线程池内部的mutex，它用来保护的数据，其实就是线程任务队列，所以将线程任务从队列中取出来之后，这个锁的任务就达成了。</p>
+<p>执行完线程任务，再锁住，是该线程在循环，执行完上一个任务，就会去队列中取下一个任务。</p>
+</li>
+<li><p>Execute方法，顾名思义，就是用来执行任务的。右值引用作为参数进行传递时，会转换成左值，需配合完美转发std::forward使用</p>
+</li>
+<li><p>最后，析构函数，主要是确保开关置为true，启动的线程函数可以正常运行结束。</p>
+</li>
+</ul>
+<p><strong>参考:</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chenwh_cn/article/details/116492680">C++11 (三) - std::function、std::bind、std::ref</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44862644/article/details/115765250">C++11 std::thread detach()与join()用法总结</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2021/07/30/C-11%E7%BA%BF%E7%A8%8B/" title="C++标准线程库的使用" target="_blank" rel="external">https://daidaini.github.io/2021/07/30/C-11线程/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/07/30/%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BFfunction%E7%9A%84%E5%AE%9E%E9%AA%8C/" title="std::function的实验"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>
