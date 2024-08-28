@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Js基础语法 | daidaini&#39;s blogs</title>
+  <meta name="description" content="tutorial 变量12let message; &#x2F;&#x2F;声明message &#x3D; &#x27;hello&#x27;; &#x2F;&#x2F;赋值 变量 数据类型 number — 可以是浮点数，也可以是整数， bigint — 用于任意长度的整数， string — 字符串类型， boolean — 逻辑值：true&#x2F;false， null — 具有单个值 null 的类型，表示“空”或“不存在”， undefin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Js基础语法">
+<meta property="og:url" content="https://daidaini.github.io/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="tutorial 变量12let message; &#x2F;&#x2F;声明message &#x3D; &#x27;hello&#x27;; &#x2F;&#x2F;赋值 变量 数据类型 number — 可以是浮点数，也可以是整数， bigint — 用于任意长度的整数， string — 字符串类型， boolean — 逻辑值：true&#x2F;false， null — 具有单个值 null 的类型，表示“空”或“不存在”， undefin">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-28T08:24:53.000Z">
+<meta property="article:modified_time" content="2024-08-28T08:26:04.977Z">
+<meta property="article:author" content="daidaini">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://daidaini.github.io/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-green# 主题颜色 theme-black theme-blue theme-green theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/daidaini" target="_blank">
+          <img class="img-circle img-rotate" src="/images/girl.webp" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">daidaini</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一个底层程序员</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享自己的经验!<br>无论生活还是工作还是学习还是编程!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-c/" rel="tag">c&#x2F;c++</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag">阅读笔记</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/c/" style="font-size: 14px;">c++</a> <a href="/tags/c-c/" style="font-size: 13.5px;">c/c++</a> <a href="/tags/web/" style="font-size: 13px;">web</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">操作系统</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">阅读笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" class="title">Js基础语法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-28T08:24:53.000Z" itemprop="datePublished">2024-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/" class="title">constexpr 研究</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:43:32.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/08/14/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E4%BA%A7%E7%94%9F%E5%92%8C%E5%A4%84%E7%90%86/" class="title">循环引用问题的产生和处理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-08-14T02:25:06.000Z" itemprop="datePublished">2024-08-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/09/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">回调函数的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-09T02:30:40.000Z" itemprop="datePublished">2023-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/07/%E4%BA%8C%E5%88%86%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" class="title">二分法的理解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-06T16:00:00.000Z" itemprop="datePublished">2023-02-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Js基础语法" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Js基础语法
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" class="article-date">
+	  <time datetime="2024-08-28T08:24:53.000Z" itemprop="datePublished">2024-08-28</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/web/" rel="tag">web</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://zh.javascript.info/">tutorial</a></p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message; <span class="comment">//声明</span></span><br><span class="line">message = <span class="string">&#x27;hello&#x27;</span>; <span class="comment">//赋值</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zh.javascript.info/variables">变量</a></p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li><code>number</code> — 可以是浮点数，也可以是整数，</li>
+<li><code>bigint</code> — 用于任意长度的整数，</li>
+<li><code>string</code> — 字符串类型，</li>
+<li><code>boolean</code> — 逻辑值：<code>true/false</code>，</li>
+<li><code>null</code> — 具有单个值 <code>null</code> 的类型，表示“空”或“不存在”，</li>
+<li><code>undefined</code> — 具有单个值 <code>undefined</code> 的类型，表示“未分配（未定义）”，</li>
+<li><code>object</code> 和 <code>symbol</code> — 对于复杂的数据结构和唯一标识符，我们目前还没学习这个类型。</li>
+</ul>
+<h3 id="值比较"><a href="#值比较" class="headerlink" title="值比较"></a>值比较</h3><p>&#x3D;&#x3D;&#x3D;  表示比较时，不做任何的类型转换</p>
+<h2 id="控制"><a href="#控制" class="headerlink" title="控制"></a>控制</h2><h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">et year = <span class="title function_">prompt</span>(<span class="string">&#x27;In which year was ECMAScript-2015 specification published?&#x27;</span>, <span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (year &lt; <span class="number">2015</span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>( <span class="string">&#x27;Too early...&#x27;</span> );</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (year &gt; <span class="number">2015</span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>( <span class="string">&#x27;Too late&#x27;</span> );</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="title function_">alert</span>( <span class="string">&#x27;Exactly!&#x27;</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三目运算符:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result = condtion ? value1 : value2;</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制合并运算符"><a href="#控制合并运算符" class="headerlink" title="控制合并运算符"></a>控制合并运算符</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">result = a ?? b;</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line">result = (a != <span class="literal">null</span> &amp;&amp; a != <span class="literal">undefined</span>) ? a : b;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果a是已定义的，则结果为a； 否则结果为 b</p>
+</blockquote>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while(condition)&#123;</span><br><span class="line">	// loop body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do&#123;</span><br><span class="line">	// loop body</span><br><span class="line">&#125;while(condition);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(begin; condtion; step)&#123;</span><br><span class="line">	// loop body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>跳出循环: <code>break</code> ， <code>continue</code></p>
+<h4 id="break-continue-标签"><a href="#break-continue-标签" class="headerlink" title="break&#x2F;continue 标签"></a>break&#x2F;continue 标签</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">outer</span>: <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">let</span> input = <span class="title function_">prompt</span>(<span class="string">`Value at coords (<span class="subst">$&#123;i&#125;</span>,<span class="subst">$&#123;j&#125;</span>)`</span>, <span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    <span class="comment">// 如果是空字符串或被取消，则中断并跳出这两个循环。</span></span><br><span class="line">    <span class="keyword">if</span> (!input) &#123;</span><br><span class="line">	    <span class="keyword">break</span> outer; <span class="comment">// (*)</span></span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// other ..</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>单使用break和continue，只能跳出当前循环，<br>但如果使用标签，就可以跳出到标签的那层</p>
+<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">switch(x)&#123;</span><br><span class="line">	case &#x27;value1&#x27;:</span><br><span class="line">		...</span><br><span class="line">		break;</span><br><span class="line">	case &#x27;value2&#x27;:</span><br><span class="line">		...</span><br><span class="line">		break;</span><br><span class="line">	...</span><br><span class="line">	default:</span><br><span class="line">		...</span><br><span class="line">		break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">showMessage</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="title function_">alert</span>(<span class="string">&#x27;Hello a!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>形式:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function name(param1, param2, ... parmN) &#123;</span><br><span class="line">	... body ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sayHi = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(<span class="string">&#x27;Hello function expression!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line"><span class="title function_">sayHi</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><p>形式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let func = (arg1, arg2, ..., argN) =&gt; expression;</span><br></pre></td></tr></table></figure>
+<p>可以认为是如下形式的缩写:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let func = function(arg1, arg2, ..., argN)&#123;</span><br><span class="line">	return expression;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">sum</span> = (<span class="params">a, b</span>) =&gt; a+b;</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(<span class="title function_">sum</span>(<span class="number">1</span>,<span class="number">2</span>)); <span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> <span class="title class_">Object</span>(); <span class="comment">//构造函数 语法</span></span><br><span class="line"><span class="keyword">let</span> user = &#123;&#125;; <span class="comment">//字面量 语法</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">	name : <span class="string">&quot;John&quot;</span>, <span class="comment">//key &quot;name&quot;, value &quot;John&quot;</span></span><br><span class="line">	age : <span class="number">30</span> <span class="comment">//key &quot;age&quot;, value 30</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user[<span class="string">&#x27;like birds&#x27;</span>] = <span class="literal">true</span>; <span class="comment">// 新增 value类型为booleans</span></span><br><span class="line">user[<span class="string">&#x27;age&#x27;</span>] = <span class="number">40</span>; <span class="comment">//修改值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> user[<span class="string">&#x27;like birds&#x27;</span>]; <span class="comment">//删除</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><em>”in“操作符：</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>, <span class="attr">age</span>:<span class="number">30</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(<span class="string">&quot;age&quot;</span> <span class="keyword">in</span> user); <span class="comment">//true</span></span><br><span class="line"><span class="title function_">alert</span>(<span class="string">&quot;blabla&quot;</span> <span class="keyword">in</span> user); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p><em>for…in :</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">  <span class="attr">isAdmin</span>: <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> user) &#123;</span><br><span class="line">  <span class="comment">// keys</span></span><br><span class="line">  <span class="title function_">alert</span>( key );  <span class="comment">// name, age, isAdmin</span></span><br><span class="line">  <span class="comment">// 属性键的值</span></span><br><span class="line">  <span class="title function_">alert</span>( user[key] ); <span class="comment">// John, 30, true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>对于对象中的各个属性的顺序</strong>：<br>整数属性会被进行排序，其他属性则按照创建的顺序显示。  </p>
+<h3 id="对象引用和复制"><a href="#对象引用和复制" class="headerlink" title="对象引用和复制"></a>对象引用和复制</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> admin = user; <span class="comment">//复制引用</span></span><br><span class="line"><span class="title function_">alert</span>(user === admin); <span class="comment">//true</span></span><br><span class="line">admin.<span class="property">name</span> = <span class="string">&#x27;Pete&#x27;</span>; <span class="comment">//通过 &#x27;admin&#x27;引用来修改</span></span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">name</span>); <span class="comment">//&#x27;Pete&#x27;, 修改能通过&quot;user&quot;引用看到</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>, <span class="attr">age</span>:<span class="number">30</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> clone = &#123;&#125;;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> user)</span><br><span class="line">&#123;</span><br><span class="line">	clone[key] = user[key];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修改</span></span><br><span class="line">clone.<span class="property">name</span> = <span class="string">&quot;Pete&quot;</span>; </span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">name</span>); <span class="comment">//原对象的name属性还是 John</span></span><br></pre></td></tr></table></figure>
+
+<p>以上的流程，可以通过assign方法来达到，语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object.assign(dst, [src1, src2, src3...])</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> permission1 = &#123;<span class="attr">canView</span>: <span class="literal">true</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> permission2 = &#123;<span class="attr">canEdit</span>: <span class="literal">true</span>&#125;;</span><br><span class="line"><span class="comment">//将 permission1, permission2的所有属性拷贝到user中</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">assign</span>(user, permission1, permission2);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>&#125;;</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">assign</span>(user, &#123;name, <span class="string">&quot;Pete&quot;</span>&#125;); <span class="comment">//属性已存在时，会覆盖</span></span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">name</span>) <span class="comment">// &quot;Pete&quot;</span></span><br><span class="line"><span class="comment">//写法也可以是</span></span><br><span class="line"><span class="keyword">let</span> clone = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, user); <span class="comment">//将user拷贝到空对象并返回赋值给clone</span></span><br></pre></td></tr></table></figure>
+
+<p><em>深层克隆</em> ：<br>原始类型，上边的复制方式可以完成，但如果属性是对其他对象的引用，则需要使用其他方式进行深层克隆。  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">sizes</span>: &#123;</span><br><span class="line">    <span class="attr">height</span>: <span class="number">182</span>,</span><br><span class="line">    <span class="attr">width</span>: <span class="number">50</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> clone = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, user);</span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">sizes</span> === clone.<span class="property">sizes</span>); <span class="comment">//true, 表示引用的是同一对象</span></span><br></pre></td></tr></table></figure>
+<p>深层克隆，需要考虑使用其他实现，例如： <a target="_blank" rel="noopener" href="https://lodash.com/">lodash</a> 库的 <a target="_blank" rel="noopener" href="https://lodash.com/docs#cloneDeep">_.cloneDeep(obj)</a>。</p>
+<h3 id="对象方法-this"><a href="#对象方法-this" class="headerlink" title="对象方法 this"></a>对象方法 this</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">	name : <span class="string">&quot;John&quot;</span>,</span><br><span class="line">	age : <span class="number">30</span>,</span><br><span class="line">	<span class="title function_">sayHi</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">name</span>); <span class="comment">//this 指的是当前对象</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">user.<span class="title function_">sayHi</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h3><p>_构造函数_：  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">User</span>(<span class="params">name</span>) &#123;</span><br><span class="line">	<span class="comment">//this = &#123;&#125;; &#123;隐式创建&#125;</span></span><br><span class="line">	<span class="comment">//添加属性到this</span></span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">isAdmin</span> = <span class="literal">false</span>;</span><br><span class="line">	<span class="comment">// return thi; (隐式返回)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用new 进行构造</span></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&#x27;Jack&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在一个函数内部，我们可以使用 <code>new.target</code> 属性来检查它是否被使用 <code>new</code> 进行调用了。</p>
+<h3 id="可选链"><a href="#可选链" class="headerlink" title="可选链"></a>可选链</h3><p>可选链 <code>?.</code> 语法有三种形式：</p>
+<ol>
+<li><code>obj?.prop</code> —— 如果 <code>obj</code> 存在则返回 <code>obj.prop</code>，否则返回 <code>undefined</code>。</li>
+<li><code>obj?.[prop]</code> —— 如果 <code>obj</code> 存在则返回 <code>obj[prop]</code>，否则返回 <code>undefined</code>。</li>
+<li><code>obj.method?.()</code> —— 如果 <code>obj.method</code> 存在则调用 <code>obj.method()</code>，否则返回 <code>undefined</code>。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = <span class="literal">null</span>;</span><br><span class="line"><span class="title function_">alert</span>(user?.<span class="property">address</span>); <span class="comment">//undefined</span></span><br><span class="line"><span class="title function_">alert</span>(user?.<span class="property">address</span>.<span class="property">street</span>); <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="symbol类型"><a href="#symbol类型" class="headerlink" title="symbol类型"></a>symbol类型</h3><p>根据规范，只有两种原始类型可以用作对象属性键：</p>
+<ul>
+<li>字符串类型</li>
+<li>symbol 类型</li>
+</ul>
+<p>symbol 有两个主要的使用场景：</p>
+<ol>
+<li><p>“隐藏” 对象属性。<br> 如果我们想要向“属于”另一个脚本或者库的对象添加一个属性，我们可以创建一个 symbol 并使用它作为属性的键。symbol 属性不会出现在 <code>for..in</code> 中，因此它不会意外地被与其他属性一起处理。并且，它不会被直接访问，因为另一个脚本没有我们的 symbol。因此，该属性将受到保护，防止被意外使用或重写。</p>
+<p> 因此我们可以使用 symbol 属性“秘密地”将一些东西隐藏到我们需要的对象中，但其他地方看不到它。</p>
+</li>
+<li><p>JavaScript 使用了许多系统 symbol，这些 symbol 可以作为 <code>Symbol.*</code> 访问。我们可以使用它们来改变一些内建行为。例如，在本教程的后面部分，我们将使用 <code>Symbol.iterator</code> 来进行 <a target="_blank" rel="noopener" href="https://zh.javascript.info/iterable">迭代</a> 操作，使用 <code>Symbol.toPrimitive</code> 来设置 <a target="_blank" rel="noopener" href="https://zh.javascript.info/object-toprimitive">对象原始值的转换</a> 等等。</p>
+</li>
+</ol>
+<h3 id="属性的getter和setter"><a href="#属性的getter和setter" class="headerlink" title="属性的getter和setter"></a>属性的getter和setter</h3><p>访问器属性由 “getter” 和 “setter” 方法表示。在对象字面量中，它们用 <code>get</code> 和 <code>set</code> 表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">surname</span>: <span class="string">&quot;Smith&quot;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> <span class="title function_">fullName</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> <span class="subst">$&#123;<span class="variable language_">this</span>.surname&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> <span class="title function_">fullName</span>(<span class="params">value</span>) &#123;</span><br><span class="line">	  [<span class="variable language_">this</span>.<span class="property">name</span>, <span class="variable language_">this</span>.<span class="property">surname</span>] = value.<span class="title function_">split</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// set fullName 将以给定值执行</span></span><br><span class="line">user.<span class="property">fullName</span> = <span class="string">&quot;Alice Cooper&quot;</span>;</span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">name</span>); <span class="comment">// Alice</span></span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">surname</span>); <span class="comment">// Cooper</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建</span></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>();</span><br><span class="line"><span class="keyword">let</span> arr = []; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fruits = [<span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Plum&quot;</span>];</span><br><span class="line"><span class="title function_">alert</span>(fruits[<span class="number">0</span>]); <span class="comment">//Apple</span></span><br><span class="line"><span class="title function_">alert</span>(fruits[<span class="number">1</span>]); <span class="comment">//Orange</span></span><br><span class="line"><span class="title function_">alert</span>(fruits[<span class="number">2</span>]); <span class="comment">//Plum</span></span><br><span class="line"></span><br><span class="line">fruits[<span class="number">2</span>] = <span class="string">&quot;Pear&quot;</span>; <span class="comment">//修改</span></span><br><span class="line">fruits[<span class="number">3</span>] = <span class="string">&quot;Lemon&quot;</span>; <span class="comment">//新增</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(fruits.<span class="title function_">pop</span>()); <span class="comment">//将 Lemon 移除出去</span></span><br><span class="line">fruits.<span class="title function_">push</span>(<span class="string">&quot;Plum&quot;</span>); <span class="comment">//末尾添加</span></span><br><span class="line"><span class="title function_">alert</span>(fruits.<span class="title function_">shift</span>()); <span class="comment">//取出首端第一个 Apple</span></span><br><span class="line">fruits.<span class="title function_">unshift</span>(<span class="string">&quot;Apple&quot;</span>); <span class="comment">//首端添加元素</span></span><br></pre></td></tr></table></figure>
+
+<p><em>遍历：</em>  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fruits = [<span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Plum&quot;</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;arr.<span class="property">length</span>; i++)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(arr[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> fruit <span class="keyword">of</span> fruits)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(fruit);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> fruits)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(fruits[key]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Map和Set"><a href="#Map和Set" class="headerlink" title="Map和Set"></a>Map和Set</h3><h4 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h4><ul>
+<li><code>new Map()</code> —— 创建 map。</li>
+<li><code>map.set(key, value)</code> —— 根据键存储值。</li>
+<li><code>map.get(key)</code> —— 根据键来返回值，如果 <code>map</code> 中不存在对应的 <code>key</code>，则返回 <code>undefined</code>。</li>
+<li><code>map.has(key)</code> —— 如果 <code>key</code> 存在则返回 <code>true</code>，否则返回 <code>false</code>。</li>
+<li><code>map.delete(key)</code> —— 删除指定键的值。</li>
+<li><code>map.clear()</code> —— 清空 map。</li>
+<li><code>map.size</code> —— 返回当前元素个数。</li>
+<li><code>map.keys()</code> —— 遍历并返回一个包含所有键的可迭代对象，</li>
+<li><code>map.values()</code> —— 遍历并返回一个包含所有值的可迭代对象，</li>
+<li><code>map.entries()</code> —— 遍历并返回一个包含所有实体 <code>[key, value]</code> 的可迭代对象，<code>for..of</code> 在默认情况下使用的就是这个。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> recipeMap = <span class="keyword">new</span> <span class="title class_">Map</span>([</span><br><span class="line">  [<span class="string">&#x27;cucumber&#x27;</span>, <span class="number">500</span>],</span><br><span class="line">  [<span class="string">&#x27;tomatoes&#x27;</span>, <span class="number">350</span>],</span><br><span class="line">  [<span class="string">&#x27;onion&#x27;</span>,    <span class="number">50</span>]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历所有的键（vegetables）</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> vegetable <span class="keyword">of</span> recipeMap.<span class="title function_">keys</span>()) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(vegetable); <span class="comment">// cucumber, tomatoes, onion</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历所有的值（amounts）</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> amount <span class="keyword">of</span> recipeMap.<span class="title function_">values</span>()) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(amount); <span class="comment">// 500, 350, 50</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历所有的实体 [key, value]</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> entry <span class="keyword">of</span> recipeMap) &#123; <span class="comment">// 与 recipeMap.entries() 相同</span></span><br><span class="line">  <span class="title function_">alert</span>(entry); <span class="comment">// cucumber,500 (and so on)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>从一个已有普通对象创建一个map:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//Object.entries 返回键/值对数组：[ [&quot;name&quot;,&quot;John&quot;], [&quot;age&quot;, 30] ]</span></span><br><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>(<span class="title class_">Object</span>.<span class="title function_">entries</span>(obj));</span><br><span class="line"><span class="title function_">alert</span>( map.<span class="title function_">get</span>(<span class="string">&#x27;name&#x27;</span>) ); <span class="comment">// John</span></span><br></pre></td></tr></table></figure>
+
+<p><em>从Map创建对象：</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> prices = <span class="title class_">Object</span>.<span class="title function_">fromEntries</span>([</span><br><span class="line">  [<span class="string">&#x27;banana&#x27;</span>, <span class="number">1</span>],</span><br><span class="line">  [<span class="string">&#x27;orange&#x27;</span>, <span class="number">2</span>],</span><br><span class="line">  [<span class="string">&#x27;meat&#x27;</span>, <span class="number">4</span>]</span><br><span class="line">]);</span><br><span class="line"><span class="comment">// 现在 prices = &#123; banana: 1, orange: 2, meat: 4 &#125;</span></span><br><span class="line"><span class="title function_">alert</span>(prices.<span class="property">orange</span>); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用Object.fromEntries从Map得到一个普通对象</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h4><ul>
+<li><code>new Set(iterable)</code> —— 创建一个 <code>set</code>，如果提供了一个 <code>iterable</code> 对象（通常是数组），将会从数组里面复制值到 <code>set</code> 中。</li>
+<li><code>set.add(value)</code> —— 添加一个值，返回 set 本身</li>
+<li><code>set.delete(value)</code> —— 删除值，如果 <code>value</code> 在这个方法调用的时候存在则返回 <code>true</code> ，否则返回 <code>false</code>。</li>
+<li><code>set.has(value)</code> —— 如果 <code>value</code> 在 set 中，返回 <code>true</code>，否则返回 <code>false</code>。</li>
+<li><code>set.clear()</code> —— 清空 set。</li>
+<li><code>set.size</code> —— 返回元素个数。</li>
+<li><code>set.keys()</code> —— 遍历并返回一个包含所有值的可迭代对象，</li>
+<li><code>set.values()</code> —— 与 <code>set.keys()</code> 作用相同，这是为了兼容 <code>Map</code>，</li>
+<li><code>set.entries()</code> —— 遍历并返回一个包含所有的实体 <code>[value, value]</code> 的可迭代对象，它的存在也是为了兼容 <code>Map</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line"><span class="keyword">let</span> john = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> pete = &#123; <span class="attr">name</span>: <span class="string">&quot;Pete&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> mary = &#123; <span class="attr">name</span>: <span class="string">&quot;Mary&quot;</span> &#125;;</span><br><span class="line"><span class="comment">// visits，一些访客来访好几次</span></span><br><span class="line">set.<span class="title function_">add</span>(john);</span><br><span class="line">set.<span class="title function_">add</span>(pete);</span><br><span class="line">set.<span class="title function_">add</span>(mary);</span><br><span class="line">set.<span class="title function_">add</span>(john);</span><br><span class="line">set.<span class="title function_">add</span>(mary);</span><br><span class="line"></span><br><span class="line"><span class="comment">// set 只保留不重复的值</span></span><br><span class="line"><span class="title function_">alert</span>( set.<span class="property">size</span> ); <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> user <span class="keyword">of</span> set) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(user.<span class="property">name</span>); <span class="comment">// John（然后 Pete 和 Mary）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="日期和时间"><a href="#日期和时间" class="headerlink" title="日期和时间"></a>日期和时间</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0 表示 01.01.1970 UTC+0</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Jan01</span>_1970 = <span class="keyword">new</span> <span class="title class_">Date</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_">alert</span>( <span class="title class_">Jan01</span>_1970 );</span><br><span class="line"><span class="comment">// 现在增加 24 小时，得到 02.01.1970 UTC+0</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Jan02</span>_1970 = <span class="keyword">new</span> <span class="title class_">Date</span>(<span class="number">24</span> * <span class="number">3600</span> * <span class="number">1000</span>);</span><br><span class="line"><span class="title function_">alert</span>( <span class="title class_">Jan02</span>_1970 );</span><br><span class="line"><span class="comment">// 31 Dec 1969 </span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Dec31</span>_1969 = <span class="keyword">new</span> <span class="title class_">Date</span>(-<span class="number">24</span> * <span class="number">3600</span> * <span class="number">1000</span>);</span><br><span class="line"><span class="title function_">alert</span>(<span class="title class_">Dec31</span>_1969);</span><br><span class="line"><span class="comment">// 自动解析</span></span><br><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="title class_">Date</span>(<span class="string">&quot;2017-04-25&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>从 <code>Date</code> 对象中访问年、月等信息有多种方式：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear">getFullYear()</a><br>获取年份（4 位数）<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth">getMonth()</a><br>获取月份，<strong>从 0 到 11</strong>。<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getDate">getDate()</a><br>获取当月的具体日期，从 1 到 31，这个方法名称可能看起来有些令人疑惑。<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours">getHours()</a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getMinutes">getMinutes()</a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getSeconds">getSeconds()</a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getMilliseconds">getMilliseconds()</a><br>获取相应的时间组件。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime">getTime()</a><br>返回日期的时间戳 —— 从 1970-1-1 00:00:00 UTC+0 开始到现在所经过的毫秒数。<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset">getTimezoneOffset()</a><br>返回 UTC 与本地时区之间的时差，以分钟为单位：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay">getDay()</a><br>获取一周中的第几天，从 <code>0</code>（星期日）到 <code>6</code>（星期六）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">diffSubtract</span>(<span class="params">date1, date2</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> date2 - date1;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">diffGetTime</span>(<span class="params">date1, date2</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> date2.<span class="title function_">getTime</span>() - date1.<span class="title function_">getTime</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bench</span>(<span class="params">f</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> date1 = <span class="keyword">new</span> <span class="title class_">Date</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">let</span> date2 = <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">  <span class="keyword">let</span> start = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) <span class="title function_">f</span>(date1, date2);</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Date</span>.<span class="title function_">now</span>() - start;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">alert</span>( <span class="string">&#x27;Time of diffSubtract: &#x27;</span> + <span class="title function_">bench</span>(diffSubtract) + <span class="string">&#x27;ms&#x27;</span> );</span><br><span class="line"><span class="title function_">alert</span>( <span class="string">&#x27;Time of diffGetTime: &#x27;</span> + <span class="title function_">bench</span>(diffGetTime) + <span class="string">&#x27;ms&#x27;</span> );</span><br></pre></td></tr></table></figure>
+
+<h3 id="Json方法"><a href="#Json方法" class="headerlink" title="Json方法"></a>Json方法</h3><p><code>JSON.stringfy</code>:  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> student = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">  <span class="attr">isAdmin</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">courses</span>: [<span class="string">&#x27;html&#x27;</span>, <span class="string">&#x27;css&#x27;</span>, <span class="string">&#x27;js&#x27;</span>],</span><br><span class="line">  <span class="attr">spouse</span>: <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> json = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(student);</span><br><span class="line"><span class="title function_">alert</span>(<span class="keyword">typeof</span> json); <span class="comment">// we&#x27;ve got a string!</span></span><br><span class="line"><span class="title function_">alert</span>(json);</span><br><span class="line"><span class="comment">/* JSON 编码的对象：</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">  &quot;name&quot;: &quot;John&quot;,</span></span><br><span class="line"><span class="comment">  &quot;age&quot;: 30,</span></span><br><span class="line"><span class="comment">  &quot;isAdmin&quot;: false,</span></span><br><span class="line"><span class="comment">  &quot;courses&quot;: [&quot;html&quot;, &quot;css&quot;, &quot;js&quot;],</span></span><br><span class="line"><span class="comment">  &quot;spouse&quot;: null</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="函数进阶"><a href="#函数进阶" class="headerlink" title="函数进阶"></a>函数进阶</h2><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class MyClass&#123;</span><br><span class="line">	constructor()&#123;...&#125;</span><br><span class="line">	method1()&#123;...&#125;</span><br><span class="line">	method2()&#123;...&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">	<span class="title function_">constructor</span>(<span class="params">name</span>)&#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">sayHi</span>(<span class="params"></span>)&#123;</span><br><span class="line">		<span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">name</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用法：</span></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;John&quot;</span>);</span><br><span class="line">user.<span class="title function_">sayHi</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="类继承"><a href="#类继承" class="headerlink" title="类继承"></a>类继承</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">	<span class="title function_">constructor</span>(<span class="params">name</span>)&#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">name</span>=name;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">speed</span>=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">run</span>(<span class="params">speed</span>)&#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">speed</span> = speed;</span><br><span class="line">		<span class="title function_">alert</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> runs with speed <span class="subst">$&#123;<span class="variable language_">this</span>.speed&#125;</span>.`</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">stop</span>(<span class="params"></span>)&#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">speed</span> = <span class="number">0</span>;</span><br><span class="line">		<span class="title function_">alert</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> stands still.`</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Rabbit</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Animal</span> &#123;</span><br><span class="line">	<span class="title function_">hide</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="title function_">alert</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> hides!`</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> <span class="title class_">Rabbit</span>(<span class="string">&quot;little white&quot;</span>);</span><br><span class="line">rabbit.<span class="title function_">run</span>(<span class="number">5</span>);</span><br><span class="line">rabbit.<span class="title function_">hide</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Promise、async-await"><a href="#Promise、async-await" class="headerlink" title="Promise、async&#x2F;await"></a>Promise、async&#x2F;await</h2><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><h3 id="什么是模块？"><a href="#什么是模块？" class="headerlink" title="什么是模块？"></a>什么是模块？</h3><p>一个模块（module）就是一个文件。一个脚本就是一个模块。</p>
+<ul>
+<li><code>export</code> 关键字标记了可以从当前模块外部访问的变量和函数。</li>
+<li><code>import</code> 关键字允许从其他模块导入功能。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//sayHi.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params">user</span>)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(<span class="string">`Hello, <span class="subst">$&#123;user&#125;</span>!`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;sayHi&#125; <span class="keyword">from</span> <span class="string">&#x27;./sayHi.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(sayHi); <span class="comment">// fucntion..</span></span><br><span class="line"><span class="title function_">sayHi</span>(<span class="string">&#x27;John&#x27;</span>); <span class="comment">// Hello, John</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://daidaini.github.io/2024/08/28/Js%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Js基础语法" target="_blank" rel="external">https://daidaini.github.io/2024/08/28/Js基础语法/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/daidaini" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/girl.webp" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/daidaini" target="_blank"><span class="text-dark">daidaini</span><small class="ml-1x">一个底层程序员</small></a></h3>
+        <div>懂的不多，正在学习...</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2024/08/14/constexpr-%E7%A0%94%E7%A9%B6/" title="constexpr 研究"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/daidaini" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>
